@@ -1,8 +1,7 @@
 package cn.geobeans.controller;
 
-
-import cn.geobeans.bean.Power;
-import cn.geobeans.service.PowerService;
+import cn.geobeans.bean.Role;
+import cn.geobeans.service.RoleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,98 +13,99 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by Administrator on 2016/10/26.
+ * Created by Administrator on 2016/10/31.
  */
 @Controller
-@RequestMapping("/power")
-public class PowerController {
-
+@RequestMapping("/role")
+public class RoleController {
     @Autowired
-    PowerService service;
+    RoleService service;
 
     ObjectMapper mapper = new ObjectMapper();
     /*
-       权限信息查询
+       角色信息查询
      */
-    @RequestMapping("/queryPowerData")
-    public void  queryPowerData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String powerName,String powerAction,
-                            int rows, int page,String sort,String order) throws IOException {
-        //String departmentName = new String(httpServletRequest.getParameter("departmentName").getBytes("ISO8859-1"), "UTF-8");
+    @RequestMapping("/queryRoleData")
+    public void  queryRoleData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String roleName,String roleId,
+                                int rows, int page,String sort,String order) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> resultMap = null;
         List sorts = new ArrayList();
         List orders = new ArrayList();
         if(sort==null){
 
-            sorts.add("powerId");
+            sorts.add("roleId");
             orders.add("ASC");
         }
         else{
-             sorts = Arrays.asList(sort.split(","));
-             orders = Arrays.asList(order.split(","));
+            sorts = Arrays.asList(sort.split(","));
+            orders = Arrays.asList(order.split(","));
         }
         map.put("startNum", rows * (page - 1));
         map.put("pageSize",rows);
         map.put("sorts",sorts);
         map.put("orders",orders);
-        map.put("powerName",powerName);
-        map.put("powerAction",powerAction);
-        resultMap = service.queryPowerData(map);
+        map.put("roleName",roleName);
+        map.put("roleId",roleId);
+        resultMap = service.queryRoleData(map);
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(resultMap));
 
     }
     /*
-       权限信息添加
+       角色信息添加
      */
-    @RequestMapping("/addPowerData")
-    public void addPowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Power power)throws IOException{
+    @RequestMapping("/addRoleData")
+    public void addRoleData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Role role)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
-        System.out.println(power);
-        int flag = service.addPowerData(power);
+        System.out.println(role);
+        int flag = service.addRoleData(role);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    修改权限信息
+    角色权限信息
      */
-    @RequestMapping("/updatePowerData")
-    public void updatePowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Power power)throws IOException{
+    @RequestMapping("/updateRoleData")
+    public void updateRoleData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Role role)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
-        int flag = service.updatePowerData(power);
+        int flag = service.updateRoleData(role);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    删除权限信息（可批量）
+    删除角色信息（可批量）
      */
-    @RequestMapping("/removePowerData")
-    public void removePowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String powerids,int count)throws IOException{
+    @RequestMapping("/removeRoleData")
+    public void removeRoleData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String roleids,int count)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
 
         List<Integer> list = new ArrayList();
-        String[] ids = powerids.split(",");
+        String[] ids = roleids.split(",");
         for(int i=0; i<ids.length; i++){
             list.add(Integer.parseInt(ids[i]));
         }
         String msg = "成功删除"+count+"条数据！" ;
 
-        if(service.removePowerData(list)==0){
+        if(service.removeRoleData(list) == 0){
             msg = "错误！！！";
         }
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
     }
-    @RequestMapping("/queryAllPower")
-    public void queryAllPower (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)throws IOException{
+    @RequestMapping("/queryAll")
+    public void queryAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
-        List<Power> list = service.getAll();
+        List<Role> list = service.getAll();
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
     }
+
+
+
 
 
 }

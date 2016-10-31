@@ -1,8 +1,7 @@
 package cn.geobeans.controller;
 
-
-import cn.geobeans.bean.Power;
-import cn.geobeans.service.PowerService;
+import cn.geobeans.bean.Employee;
+import cn.geobeans.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,98 +13,93 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by Administrator on 2016/10/26.
+ * Created by Administrator on 2016/10/31.
  */
 @Controller
-@RequestMapping("/power")
-public class PowerController {
-
+@RequestMapping("/employee")
+public class EmployeeController {
     @Autowired
-    PowerService service;
+    EmployeeService service;
 
     ObjectMapper mapper = new ObjectMapper();
     /*
-       权限信息查询
+       角色信息查询
      */
-    @RequestMapping("/queryPowerData")
-    public void  queryPowerData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String powerName,String powerAction,
-                            int rows, int page,String sort,String order) throws IOException {
-        //String departmentName = new String(httpServletRequest.getParameter("departmentName").getBytes("ISO8859-1"), "UTF-8");
+    @RequestMapping("/queryEmployeeData")
+    public void  queryEmployeeData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeName,String employeeId,
+                                int rows, int page,String sort,String order) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> resultMap = null;
         List sorts = new ArrayList();
         List orders = new ArrayList();
         if(sort==null){
 
-            sorts.add("powerId");
+            sorts.add("employeeId");
             orders.add("ASC");
         }
         else{
-             sorts = Arrays.asList(sort.split(","));
-             orders = Arrays.asList(order.split(","));
+            sorts = Arrays.asList(sort.split(","));
+            orders = Arrays.asList(order.split(","));
         }
         map.put("startNum", rows * (page - 1));
         map.put("pageSize",rows);
         map.put("sorts",sorts);
         map.put("orders",orders);
-        map.put("powerName",powerName);
-        map.put("powerAction",powerAction);
-        resultMap = service.queryPowerData(map);
+        map.put("employeeName",employeeName);
+        map.put("employeeId",employeeId);
+        resultMap = service.queryEmployeeData(map);
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(resultMap));
 
     }
     /*
-       权限信息添加
+       角色信息添加
      */
-    @RequestMapping("/addPowerData")
-    public void addPowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Power power)throws IOException{
+    @RequestMapping("/addEmployeeData")
+    public void addEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Employee employee)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
-        System.out.println(power);
-        int flag = service.addPowerData(power);
+        System.out.println(employee);
+        int flag = service.addEmployeeData(employee);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    修改权限信息
+    角色权限信息
      */
-    @RequestMapping("/updatePowerData")
-    public void updatePowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Power power)throws IOException{
+    @RequestMapping("/updateEmployeeData")
+    public void updateEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Employee employee)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
-        int flag = service.updatePowerData(power);
+        int flag = service.updateEmployeeData(employee);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    删除权限信息（可批量）
+    删除角色信息（可批量）
      */
-    @RequestMapping("/removePowerData")
-    public void removePowerData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String powerids,int count)throws IOException{
+    @RequestMapping("/removeEmployeeData")
+    public void removeEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeids,int count)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
 
         List<Integer> list = new ArrayList();
-        String[] ids = powerids.split(",");
+        String[] ids = employeeids.split(",");
         for(int i=0; i<ids.length; i++){
             list.add(Integer.parseInt(ids[i]));
         }
         String msg = "成功删除"+count+"条数据！" ;
 
-        if(service.removePowerData(list)==0){
+        if(service.removeEmployeeData(list) == 0){
             msg = "错误！！！";
         }
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
     }
-    @RequestMapping("/queryAllPower")
-    public void queryAllPower (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)throws IOException{
+    @RequestMapping("/queryAll")
+    public void queryAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
-        List<Power> list = service.getAll();
-        httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
+        List<Employee> list = service.getAll();
     }
-
-
 }

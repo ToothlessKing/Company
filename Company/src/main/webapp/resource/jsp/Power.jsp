@@ -39,7 +39,7 @@
     </tr>
   </table>
 </div>
-<div style="width:600px;height: 500px">
+<div style="width:600px;height:500px">
   <table id="PowerGrid">
   </table>
 </div>

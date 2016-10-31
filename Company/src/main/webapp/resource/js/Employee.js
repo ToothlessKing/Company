@@ -3,22 +3,24 @@
  */
 $.Employee =
 {
-    employeeNo:"",
+    employeeId:"",
     employeeName:"",
     columns:[
         {field:'checkbox',checkbox:true},
-        {field:'employee_id',title:'员工号',width:50,sortable:true},
-        {field:'employee_name',title:'员工名',width:100,sortable:true},
-        {field:'department_id',title:'所属部门',width:100,sortable:true},
-        {field:'company_name',title:'分公司公司名',width:100,sortable:true},
-        {field:'employee_sex',title:'员工性别',width:100,sortable:true},
-        {field:'employee_phone',title:'联系方式',width:100,sortable:true},
-        {field:'employee_email',title:'邮箱地址',width:100,sortable:true},
-        {field:'role_name',title:'系统角色',width:100,sortable:true},
+        {field:'employeeId',title:'员工号',width:50,sortable:true},
+        {field:'employeeName',title:'员工名',width:100,sortable:true},
+        {field:'employeeId',title:'部门id',width:100,sortable:true},
+        {field:'companyId',title:'分公司id',width:100,sortable:true},
+        {field:'companyName',title:'分公司名',width:100,sortable:true},
+        {field:'employeeSex',title:'员工性别',width:100,sortable:true},
+        {field:'employeePhone',title:'联系方式',width:100,sortable:true},
+        {field:'employeeEmail',title:'邮箱地址',width:100,sortable:true},
+        {field:'roleId',title:'角色id',width:100,sortable:true},
+        {field:'roleName',title:'系统角色',width:100,sortable:true},
         {field:'action',title:'操作',width:100,
             formatter:function(value,row,index){
                 var html = '<a href="#" id="updateBtn" onclick="$.Employee.clickUpdate('+index+')">[修改]</a>'
-                    +'<a href="#" id="deleBtn" onclick="$.Employee.clickDele('+row.department_id+","+1+')">[删除]</a>';
+                    +'<a href="#" id="deleBtn" onclick="$.Employee.clickDele('+row.employeeId+","+1+')">[删除]</a>';
                 return html;
 
             }
@@ -40,7 +42,7 @@ $.Employee =
     initDataGrid:function()
     {
         $("#EmployeeGrid").datagrid({
-            url:"/department/queryEmployeeDate.do?departmentNo="+$.Employee.departmentNo+"&departmentName="+$.Employee.departmentName,
+            url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName,
             pagination:true,
             singleSelect:false,
             columns :  [$.Employee.columns] ,
@@ -95,10 +97,10 @@ $.Employee =
         });
         //查询按钮点击事件
         $('#findBtn').click(function(){
-            $.Employee.departmentNo = $('#departmentId').textbox('getValue');
-            $.Employee.departmentName = $('#departmentName').textbox('getValue');
+            $.Employee.employeeId = $('#employee_id').textbox('getValue');
+            $.Employee.employeeName = $('#employee_name').textbox('getValue');
             $("#EmployeeGrid").datagrid({
-                url:"/department/queryEmployeeDate.do?departmentNo="+$.Employee.departmentNo+"&departmentName="+$.Employee.departmentName
+                url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName
             });
 
         });
@@ -128,7 +130,7 @@ $.Employee =
         //alert(row);
         var id = "";
         for(var i=0; i<row.length; i++){
-            id += row[i].department_id + ',';
+            id += row[i].employee_id + ',';
         }
         $.Employee.removeEmployeeData(id,row.length);
     },
@@ -137,12 +139,12 @@ $.Employee =
      @param 部门编号（多个则中间用，隔开）
      @param 个数
      */
-    removeEmployeeData:function(departmentids,count){
-        alert(departmentids+" : "+count);
+    removeEmployeeData:function(employeeids,count){
+        alert(employeeids+" : "+count);
         $.ajax({
-            url:"/department/removeEmployeeData.do",
+            url:$.common.base+"/employee/removeEmployeeData.do",
             data:{
-                departmentids:departmentids,
+                employeeids:employeeids,
                 count:count
             },
             success:function(data){
@@ -155,17 +157,33 @@ $.Employee =
      添加部门信息
      */
     addEmployeeData:function(){
-        var department_name  = $('#department_name').textbox('getValue');
-        var department_describe = $('#department_describe').textbox('getValue');
-        if(department_name.trim()==""||department_name==null){
-            alert("部门名称不能为空！！！");
+        var employeeId  = $('#employeeId').textbox('getValue');
+        var departmentId  = $('#departmentId').textbox('getValue');
+        var roleId  = $('#roleId').textbox('getValue');
+        var companyId  = $('#companyId').textbox('getValue');
+        var employeeName  = $('#employeeName').textbox('getValue');
+        var employeeSex  = $('#employeeSex').textbox('getValue');
+        var employeePhone  = $('#employeePhone').textbox('getValue');
+        var departmentName = $('#departmentName').textbox('getValue');
+        var companyName = $('#companyName').textbox('getValue');
+        var roleName = $('#roleName').textbox('getValue');
+        if(employeeName.trim()==""||employeeName==null){
+            alert("名称不能为空！！！");
             return;
         }
         $.ajax({
-            url:"/department/addEmployeeData.do",
+            url:$.common.base+"/employee/addEmployeeData.do",
             data:{
-                department_name:department_name,
-                department_describe:department_describe
+                employeeId:employeeId,
+                departmentId:departmentId,
+                roleId:roleId,
+                companyId:companyId,
+                employeeName:employeeName,
+                employeeSex:employeeSex,
+                employeePhone:employeePhone,
+                departmentName:departmentName,
+                companyName:companyName,
+                roleName:roleName
             },
             success:function(data){
                 if(data=="1"){
@@ -184,19 +202,33 @@ $.Employee =
      修改部门信息
      */
     updateEmployeeData:function(){
-        var department_id  = $('#department_id').textbox('getValue');
-        var department_name  = $('#department_name').textbox('getValue');
-        var department_describe = $('#department_describe').textbox('getValue');
-        if(department_name.trim()==""||department_name==null){
+        var employeeId  = $('#employeeId').textbox('getValue');
+        var departmentId  = $('#departmentId').textbox('getValue');
+        var roleId  = $('#roleId').textbox('getValue');
+        var companyId  = $('#companyId').textbox('getValue');
+        var employeeName  = $('#employeeName').textbox('getValue');
+        var employeeSex  = $('#employeeSex').textbox('getValue');
+        var employeePhone  = $('#employeePhone').textbox('getValue');
+        var departmentName = $('#departmentName').textbox('getValue');
+        var companyName = $('#companyName').textbox('getValue');
+        var roleName = $('#roleName').textbox('getValue');
+        if(employee_name.trim()==""||employee_name==null){
             alert("部门名称不能为空！！！");
             return;
         }
         $.ajax({
-            url:"/department/updateEmployeeData.do",
+            url:$.common.base+"/employee/updateEmployeeData.do",
             data:{
-                department_id:department_id,
-                department_name:department_name,
-                department_describe:department_describe
+                employeeId:employeeId,
+                departmentId:departmentId,
+                roleId:roleId,
+                companyId:companyId,
+                employeeName:employeeName,
+                employeeSex:employeeSex,
+                employeePhone:employeePhone,
+                departmentName:departmentName,
+                companyName:companyName,
+                roleName:roleName
             },
             success:function(data){
                 if(data=="1")
@@ -215,5 +247,37 @@ $.Employee =
     },
     clearForm:function(){
         $('#fm').form('clear');
+    },
+    loadCombobox:function(){
+        $("#departmentName").combobox({
+            url: $.common.base+"/department/queryAll.do",
+            valueField: "departmentId",
+            textField: "departmentName",
+            panelHeight: "auto",
+            editable: false,
+            onLoadSuccess: function (data) { //加载完成后,设置选中第一项
+                $('#departmentName').combobox('select', data[0].departmentId);
+            }
+        });
+        $("#companyName").combobox({
+            url: $.common.base+"/company/queryAll.do",
+            valueField: "companyId",
+            textField: "companyName",
+            panelHeight: "auto",
+            editable: false,
+            onLoadSuccess: function (data) { //加载完成后,设置选中第一项
+                $('#companyName').combobox('select', data[0].companyId);
+            }
+        });
+        $("#roleName").combobox({
+            url: $.common.base+"/roleName/queryAll.do",
+            valueField: "roleId",
+            textField: "roleName",
+            panelHeight: "auto",
+            editable: false,
+            onLoadSuccess: function (data) { //加载完成后,设置选中第一项
+                $('#roleName').combobox('select', data[0].roleName);
+            }
+        });
     }
 }

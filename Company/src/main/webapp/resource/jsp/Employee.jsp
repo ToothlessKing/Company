@@ -14,7 +14,8 @@
     <script src="../tool/jquery-easyui-1.4/jquery.min.js"></script>
     <script src="../tool/jquery-easyui-1.4/jquery.easyui.min.js"></script>
     <!--下面的使easyui datagrid 行拖拽插件-->
-    <script src="../tool/jquery-easyui-1.4/datagrid-dnd.js"></script
+    <script src="../tool/jquery-easyui-1.4/datagrid-dnd.js"></script>
+    <script src="../js/common.js"></script>
     <script src="../js/Employee.js"></script>
     <script>
       $(function(){
@@ -26,19 +27,19 @@
   <div>
     <table>
       <tr>
-        <td>部门号：</td>
+        <td>员工号：</td>
         <td>
-          <input type="text" class="easyui-textbox" id="departmentId" />
+          <input type="text" class="easyui-textbox" id="employee_id" />
         </td>
-        <td>部门名：</td>
+        <td>员工名：</td>
         <td>
-          <input type="text" class="easyui-textbox" id="departmentName" />
+          <input type="text" class="easyui-textbox" id="employee_name" />
         </td>
         <td><a href="#" id="findBtn" class="easyui-linkbutton" iconCls="icon-search" >查询</a></td>
       </tr>
     </table>
   </div>
-  <div style="width:500px;height: 500px">
+  <div style="height: 500px">
     <table id="EmployeeGrid">
     </table>
   </div>
@@ -48,21 +49,65 @@
       <table cellpadding="5">
         <tr id="div1" class="easyui-panel" closed="true">
           <td>
-            <input type="text"  class="easyui-textbox" id="department_id"  name="department_id"/>
+            <input type="text"  class="easyui-textbox" id="employeeId"  name="employeeId"/>
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="departmentId" name="departmentId"/>
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="roleId" name="roleId"/>
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="companyId" name="companyId"/>
+          </td>
+        </tr>
+        <tr>
+          <td>员工名：
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="employeeName" name="employeeName"/>
+          </td>
+        </tr>
+        <tr>
+          <td>性别：
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="employeeSex" name="employeeSex"/>
+          </td>
+        </tr>
+        <tr>
+          <td>联系方式：
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="employeePhone" name="employeePhone"/>
+          </td>
+        </tr>
+        <tr>
+          <td>地址邮箱：
+          </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="employeeEmail" name="employeeEmail"/>
           </td>
         </tr>
         <tr>
           <td>部门名：
           </td>
           <td>
-            <input type="text" class="easyui-textbox" id="department_name" name="department_name"/>
+            <input type="text" class="easyui-combobox" id="departmentName" name="departmentName"/>
           </td>
         </tr>
         <tr>
-          <td>部门说明：
+          <td>分公司名：
           </td>
           <td>
-            <input class="easyui-textbox" id="department_describe" name="department_describe" data-options="multiline:true" style="height:60px"/>
+            <input type="text" class="easyui-combobox" id="companyName" name="companyName"/>
+          </td>
+        </tr>
+        <tr>
+          <td>角色：
+          </td>
+          <td>
+            <input type="text" class="easyui-combobox" id="roleName" name="roleName"/>
           </td>
         </tr>
       </table>
