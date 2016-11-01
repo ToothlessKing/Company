@@ -34,8 +34,8 @@ public class LoginController {
             if (employee.getPassword().equalsIgnoreCase(password)){
                 flag = 1;
                 session.setAttribute("loginUser",employee);
-                int userRoleId = employee.getRoleId();
-                Map map = service.queryPower(userRoleId);
+                int employeeId = employee.getEmployeeId();
+                Map map = service.queryPower(employeeId);
                 session.setAttribute("userPower",map);
             }
             else {

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
 public class Role {

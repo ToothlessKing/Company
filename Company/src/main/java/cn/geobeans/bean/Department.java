@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
 public class Department {
@@ -52,9 +52,9 @@ public class Department {
         Department that = (Department) o;
 
         if (departmentId != that.departmentId) return false;
-        if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
-            return false;
         if (departmentDescribe != null ? !departmentDescribe.equals(that.departmentDescribe) : that.departmentDescribe != null)
+            return false;
+        if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
             return false;
 
         return true;

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
 public class Power {
@@ -52,8 +52,8 @@ public class Power {
         Power power = (Power) o;
 
         if (powerId != power.powerId) return false;
-        if (powerName != null ? !powerName.equals(power.powerName) : power.powerName != null) return false;
         if (powerAction != null ? !powerAction.equals(power.powerAction) : power.powerAction != null) return false;
+        if (powerName != null ? !powerName.equals(power.powerName) : power.powerName != null) return false;
 
         return true;
     }

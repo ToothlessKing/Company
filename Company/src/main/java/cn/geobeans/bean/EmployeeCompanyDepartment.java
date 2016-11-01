@@ -1,18 +1,21 @@
 package cn.geobeans.bean;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.Table;
 
 /**
  * Created by Administrator on 2016/11/1.
  */
-public class CompanyDepartmentPK implements Serializable {
+@Entity
+@Table(name = "employee_company_department", schema = "", catalog = "db_company")
+public class EmployeeCompanyDepartment {
+    private int employeeId;
     private int companyId;
     private int departmentId;
 
     @Column(name = "companyId")
-    @Id
     public int getCompanyId() {
         return companyId;
     }
@@ -20,9 +23,7 @@ public class CompanyDepartmentPK implements Serializable {
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
-
     @Column(name = "departmentId")
-    @Id
     public int getDepartmentId() {
         return departmentId;
     }
@@ -31,23 +32,30 @@ public class CompanyDepartmentPK implements Serializable {
         this.departmentId = departmentId;
     }
 
+    @Id
+    @Column(name = "employeeId")
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CompanyDepartmentPK that = (CompanyDepartmentPK) o;
+        EmployeeCompanyDepartment that = (EmployeeCompanyDepartment) o;
 
-        if (companyId != that.companyId) return false;
-        if (departmentId != that.departmentId) return false;
+        if (employeeId != that.employeeId) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = companyId;
-        result = 31 * result + departmentId;
-        return result;
+        return employeeId;
     }
 }

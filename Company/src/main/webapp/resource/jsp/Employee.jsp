@@ -60,6 +60,9 @@
           <td>
             <input type="text" class="easyui-textbox" id="companyId" name="companyId"/>
           </td>
+          <td>
+            <input type="text" class="easyui-textbox" id="password" name="password"/>
+          </td>
         </tr>
         <tr>
           <td>员工名：
@@ -72,7 +75,11 @@
           <td>性别：
           </td>
           <td>
-            <input type="text" class="easyui-textbox" id="employeeSex" name="employeeSex"/>
+            <%--<input type="text" class="easyui-textbox" id="employeeSex" name="employeeSex"/>--%>
+            <select name=employeeSex" id="employeeSex" class="easyui-combobox"  style="width:100px;" panelHeight="auto">
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
           </td>
         </tr>
         <tr>

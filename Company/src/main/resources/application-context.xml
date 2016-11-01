@@ -66,7 +66,7 @@
     </bean>
 
     <!--事物管理模式：注解方式-->
-    <tx:annotation-driven />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--session交由spring进行管理-->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

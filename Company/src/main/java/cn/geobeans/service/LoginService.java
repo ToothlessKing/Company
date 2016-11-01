@@ -25,8 +25,8 @@ public class LoginService {
 
     }
 
-    public Map queryPower(int roleId){
-        return dao.queryPower(roleId);
+    public Map queryPower(int employeeId){
+        return dao.queryPower(employeeId);
     }
 
 }

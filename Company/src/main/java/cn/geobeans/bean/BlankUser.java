@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
-@Table(name = "blank_user", schema = "db_company", catalog = "")
+@Table(name = "blank_user", schema = "", catalog = "db_company")
 public class BlankUser {
     private String id;
     private Timestamp createTime;
@@ -83,11 +83,11 @@ public class BlankUser {
 
         BlankUser blankUser = (BlankUser) o;
 
-        if (id != null ? !id.equals(blankUser.id) : blankUser.id != null) return false;
         if (createTime != null ? !createTime.equals(blankUser.createTime) : blankUser.createTime != null) return false;
-        if (updateTime != null ? !updateTime.equals(blankUser.updateTime) : blankUser.updateTime != null) return false;
+        if (id != null ? !id.equals(blankUser.id) : blankUser.id != null) return false;
         if (name != null ? !name.equals(blankUser.name) : blankUser.name != null) return false;
         if (password != null ? !password.equals(blankUser.password) : blankUser.password != null) return false;
+        if (updateTime != null ? !updateTime.equals(blankUser.updateTime) : blankUser.updateTime != null) return false;
         if (username != null ? !username.equals(blankUser.username) : blankUser.username != null) return false;
 
         return true;

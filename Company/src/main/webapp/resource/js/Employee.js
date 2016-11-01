@@ -9,7 +9,8 @@ $.Employee =
         {field:'checkbox',checkbox:true},
         {field:'employeeId',title:'员工号',width:50,sortable:true},
         {field:'employeeName',title:'员工名',width:100,sortable:true},
-        {field:'employeeId',title:'部门id',width:100,sortable:true},
+        {field:'departmentId',title:'部门id',width:100,sortable:true},
+        {field:'departmentName',title:'部门姓名',width:100,sortable:true},
         {field:'companyId',title:'分公司id',width:100,sortable:true},
         {field:'companyName',title:'分公司名',width:100,sortable:true},
         {field:'employeeSex',title:'员工性别',width:100,sortable:true},
@@ -17,12 +18,12 @@ $.Employee =
         {field:'employeeEmail',title:'邮箱地址',width:100,sortable:true},
         {field:'roleId',title:'角色id',width:100,sortable:true},
         {field:'roleName',title:'系统角色',width:100,sortable:true},
+        {field:'password',title:'系统角色',width:100,sortable:true,hidden:true},
         {field:'action',title:'操作',width:100,
             formatter:function(value,row,index){
                 var html = '<a href="#" id="updateBtn" onclick="$.Employee.clickUpdate('+index+')">[修改]</a>'
                     +'<a href="#" id="deleBtn" onclick="$.Employee.clickDele('+row.employeeId+","+1+')">[删除]</a>';
                 return html;
-
             }
         }
     ],
@@ -33,7 +34,7 @@ $.Employee =
     {
         $.Employee.initDataGrid();
         $.Employee.initClickEvent();
-
+        $.Employee.loadCombobox();
     },
     /*
      初始化表格 默认全部查找
@@ -104,6 +105,21 @@ $.Employee =
             });
 
         });
+        $("#departmentName").combobox({
+            onChange: function (newVal, oldVal) {
+                $("#departmentId").textbox('setValue', newVal);
+            }
+        });
+        $("#companyName").combobox({
+            onChange: function (newVal, oldVal) {
+                $("#companyId").textbox('setValue', newVal);
+            }
+        });
+        $("#roleName").combobox({
+            onChange: function (newVal, oldVal) {
+                $("#roleId").textbox('setValue', newVal);
+            }
+        });
     },
     /*
      点击修改事件
@@ -114,6 +130,18 @@ $.Employee =
         if (row){
             $('#addDialog').dialog('open').dialog('setTitle','修改界面');
             $('#fm').form('load',row);
+            $('#employeeSex').combobox('select',row.employeeSex);
+            if(row.departmentId!=null&&row.departmentId!=""&&row.departmentId!="null"){
+                $('#departmentName').combobox('select',row.departmentId);
+            }
+            if(row.companyId!=null&&row.companyId!=""&&row.companyId!="null"){
+                $('#companyName').combobox('select',row.companyId);
+            }
+            if(row.roleId!=null&&row.roleId!=""&&row.roleId!="null"){
+                $('#').combobox('select',row.roleId);
+            }
+
+
         }
     },
     /*
@@ -164,29 +192,35 @@ $.Employee =
         var employeeName  = $('#employeeName').textbox('getValue');
         var employeeSex  = $('#employeeSex').textbox('getValue');
         var employeePhone  = $('#employeePhone').textbox('getValue');
-        var departmentName = $('#departmentName').textbox('getValue');
-        var companyName = $('#companyName').textbox('getValue');
-        var roleName = $('#roleName').textbox('getValue');
+        var employeeEmail = $("#employeeEmail").textbox('getValue');
+        //var departmentName = $('#departmentName').textbox('getValue');
+        //var companyName = $('#companyName').textbox('getValue');
+        //var roleName = $('#roleName').textbox('getValue');
+        //var password = $('#password').textbox('getValue');
+        var password = "123456";
         if(employeeName.trim()==""||employeeName==null){
             alert("名称不能为空！！！");
             return;
         }
         $.ajax({
+            type: 'POST',
             url:$.common.base+"/employee/addEmployeeData.do",
             data:{
-                employeeId:employeeId,
+                //employeeId:employeeId,
                 departmentId:departmentId,
                 roleId:roleId,
                 companyId:companyId,
                 employeeName:employeeName,
                 employeeSex:employeeSex,
                 employeePhone:employeePhone,
-                departmentName:departmentName,
-                companyName:companyName,
-                roleName:roleName
+                //departmentName:departmentName,
+                //companyName:companyName,
+                //roleName:roleName,
+                employeeEmail:employeeEmail,
+                password:password
             },
             success:function(data){
-                if(data=="1"){
+                if(data!="0"&&data!=0){
                     $('#addDialog').dialog('close');
                     alert(data);
                     $('#EmployeeGrid').datagrid('reload');
@@ -209,14 +243,17 @@ $.Employee =
         var employeeName  = $('#employeeName').textbox('getValue');
         var employeeSex  = $('#employeeSex').textbox('getValue');
         var employeePhone  = $('#employeePhone').textbox('getValue');
-        var departmentName = $('#departmentName').textbox('getValue');
-        var companyName = $('#companyName').textbox('getValue');
-        var roleName = $('#roleName').textbox('getValue');
-        if(employee_name.trim()==""||employee_name==null){
-            alert("部门名称不能为空！！！");
+        var employeeEmail = $("#employeeEmail").textbox('getValue');
+        //var departmentName = $('#departmentName').textbox('getValue');
+        //var companyName = $('#companyName').textbox('getValue');
+        //var roleName = $('#roleName').textbox('getValue');
+        var password = $('#password').textbox('getValue');
+        if(employeeName.trim()==""||employeeName==null){
+            alert("名称不能为空！！！");
             return;
         }
         $.ajax({
+            type: 'POST',
             url:$.common.base+"/employee/updateEmployeeData.do",
             data:{
                 employeeId:employeeId,
@@ -226,9 +263,11 @@ $.Employee =
                 employeeName:employeeName,
                 employeeSex:employeeSex,
                 employeePhone:employeePhone,
-                departmentName:departmentName,
-                companyName:companyName,
-                roleName:roleName
+                //departmentName:departmentName,
+                //companyName:companyName,
+                //roleName:roleName,
+                employeeEmail:employeeEmail,
+                password:password
             },
             success:function(data){
                 if(data=="1")
@@ -270,7 +309,7 @@ $.Employee =
             }
         });
         $("#roleName").combobox({
-            url: $.common.base+"/roleName/queryAll.do",
+            url: $.common.base+"/role/queryAll.do",
             valueField: "roleId",
             textField: "roleName",
             panelHeight: "auto",

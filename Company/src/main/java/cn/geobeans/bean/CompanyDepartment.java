@@ -3,10 +3,10 @@ package cn.geobeans.bean;
 import javax.persistence.*;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
-@Table(name = "company_department", schema = "db_company", catalog = "")
+@Table(name = "company_department", schema = "", catalog = "db_company")
 @IdClass(CompanyDepartmentPK.class)
 public class CompanyDepartment {
     private int companyId;

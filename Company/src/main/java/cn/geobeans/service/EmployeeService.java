@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +32,11 @@ public class EmployeeService {
     }
 
     public int addEmployeeData(Employee employee) {
-        if(dao.findBy("employeeName",employee.getEmployeeName()).size()==0)
-        {
-            dao.save(employee);
-            return 1;
-        }
-        else{
-            return 0;
-        }
+        //int id = dao.getMaxId();
+        Serializable pKey =dao.getSession().save(employee);
+
+        System.out.println(employee.getEmployeeId());
+        return 1;
     }
 
     public int updateEmployeeData(Employee employee) {
@@ -54,5 +52,8 @@ public class EmployeeService {
         return dao.getAll();
     }
 
+    public int getMaxId(){
+        return dao.getMaxId();
+    }
 
 }

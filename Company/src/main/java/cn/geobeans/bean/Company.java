@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Created by LichKing on 2016/10/30.
+ * Created by Administrator on 2016/11/1.
  */
 @Entity
 public class Company {
@@ -85,11 +85,11 @@ public class Company {
         Company company = (Company) o;
 
         if (companyId != company.companyId) return false;
-        if (companyName != null ? !companyName.equals(company.companyName) : company.companyName != null) return false;
         if (companyAddress != null ? !companyAddress.equals(company.companyAddress) : company.companyAddress != null)
             return false;
         if (companyCoordinates != null ? !companyCoordinates.equals(company.companyCoordinates) : company.companyCoordinates != null)
             return false;
+        if (companyName != null ? !companyName.equals(company.companyName) : company.companyName != null) return false;
         if (companyScope != null ? !companyScope.equals(company.companyScope) : company.companyScope != null)
             return false;
         if (companyScopeMap != null ? !companyScopeMap.equals(company.companyScopeMap) : company.companyScopeMap != null)
