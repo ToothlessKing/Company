@@ -29,7 +29,7 @@ public class PowerDao extends DaoHibernateImpl<Power,Integer> {
             criteria.add(Restrictions.eq("powerName",powerName));
         }
         if(powerAction!=null&&!powerAction.equalsIgnoreCase("")){
-            criteria.add(Restrictions.eq("powerAction",powerAction));
+            criteria.add(Restrictions.ilike("powerAction","%"+powerAction+"%"));
         }
         List sorts = (List) map.get("sorts");
         List orders = (List) map.get("orders");
@@ -54,7 +54,7 @@ public class PowerDao extends DaoHibernateImpl<Power,Integer> {
             criteria.add(Restrictions.eq("powerName",powerName));
         }
         if(powerAction!=null&&!powerAction.equalsIgnoreCase("")){
-            criteria.add(Restrictions.eq("powerAction",powerAction));
+            criteria.add(Restrictions.ilike("powerAction","%"+powerAction+"%"));
         }
         int count = ((Long)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 

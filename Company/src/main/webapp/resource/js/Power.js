@@ -10,10 +10,11 @@ $.Power =
     powerAction:"",
     columns:[
         {field:'checkbox',checkbox:true},
-        {field:'powerId',title:'编号',width:100,sortable:true},
-        {field:'powerName',title:'权限组名',width:100,sortable:true},
-        {field:'powerAction',title:'拥有权限',width:200},
-        {field:'action',title:'操作',width:200,
+        {field:'powerId',title:'编号',width:60,sortable:true},
+        {field:'powerName',title:'权限组名',width:70,sortable:true},
+        {field:'powerScope',title:'应用范围',width:100,sortable:true},
+        {field:'powerAction',title:'拥有权限',width:580},
+        {field:'action',title:'操作',width:150,
             formatter:function(value,row,index){
                 var html = '<a href="#" id="updateBtn" onclick="$.Power.clickUpdate('+index+')">[修改]</a>'
                     +'<a href="#" id="deleBtn" onclick="$.Power.clickDele('+row.powerId+","+1+')">[删除]</a>';
@@ -46,6 +47,7 @@ $.Power =
             multiSort:true,
             fit:true,
             rownumbers:true,
+            nowrap:false,
             pageSize:20,
             pageList:[10,20,30,40],
             toolbar : [
@@ -163,6 +165,7 @@ $.Power =
     addPowerData:function(){
         var powerName  = $('#powerName').textbox('getValue');
         var powerAction="";
+        var powerScope = $("#powerScope").val();
         //$('.checkGroup:checked').each(function(){
         //    powerAction += $(this).val()+",";
         //});
@@ -179,7 +182,8 @@ $.Power =
             url:$.common.base+"/power/addPowerData.do",
             data:{
                 powerName:powerName,
-                powerAction:powerAction
+                powerAction:powerAction,
+                powerScope:powerScope
             },
             success:function(data){
                 if(data=="1"){
@@ -201,6 +205,7 @@ $.Power =
 
         var powerId  = $('#powerId').textbox('getValue');
         var powerName  = $('#powerName').textbox('getValue');
+        var powerScope = $("#powerScope").val();
         var powerAction = "";
         if(powerName.trim()==""||powerName==null){
             alert("名称不能为空！！！");
@@ -214,7 +219,8 @@ $.Power =
             data:{
                 powerId:powerId,
                 powerName:powerName,
-                powerAction:powerAction
+                powerAction:powerAction,
+                powerScope:powerScope
             },
             success:function(data){
                 if(data=="1")

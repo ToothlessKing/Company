@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html >
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <link rel="stylesheet" type="text/css" href="resource/tool/Map5/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="resource/tool/Map5/Map5.min.css">
     <script type="text/javascript" src="resource/tool/jquery-easyui-1.4/jquery.min.js"></script>
     <script type="text/javascript" src="resource/tool/Map5/bootstrap.min.js"></script>
     <script type="text/javascript" src="resource/tool/Map5/Map5.min.js"></script>
+
     <style type="text/css">
         body{
             margin: 0px;
@@ -30,7 +30,7 @@
 
             // 3、添加一个图层
             // 定义一个QuadServer图层，作为底图，第一个参数为图层名称，第二个参数为QuadServer地址
-            var layer = new GeoBeans.Layer.QSLayer("base","http://10.0.0.10/map/QuadServer/maprequest?services=world_vector");
+            var layer = new GeoBeans.Layer.QSLayer("base","http://localhost:81");
 
             // 添加图层
             mapObj.addLayer(layer);
@@ -46,17 +46,10 @@
             mapObj.draw();
         }
 
-        function closeMap(){
-            // 关闭地图
-            mapObj.close();
-        }
     </script>
-    <title>Map5 -- 关闭地图</title>
+    <title>Map5 -- 初始化地图</title>
 <body onload="init()">
-<div id="mapDiv" style="height:800px;width:100%;position:absolute;top:30px;">
+<!-- mapDiv 为初始化地图的容器，给定高度和宽度，并指定定位方式为绝对定位 -->
+<div id="mapDiv" style="height:800px;width:100%;position:absolute;">
 </div>
-<button onclick="closeMap()">关闭地图</button>
-<button onclick="init()">初始化地图</button>
 </body>
-
-</html>

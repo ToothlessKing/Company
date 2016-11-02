@@ -12,6 +12,7 @@ import javax.persistence.Id;
 public class Power {
     private String powerName;
     private String powerAction;
+    private String powerScope;
     private int powerId;
 
     @Basic
@@ -43,6 +44,15 @@ public class Power {
     public void setPowerId(int powerId) {
         this.powerId = powerId;
     }
+    @Basic
+    @Column(name = "powerScope")
+    public String getPowerScope() {
+        return powerScope;
+    }
+
+    public void setPowerScope(String powerScope) {
+        this.powerScope = powerScope;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,6 +64,7 @@ public class Power {
         if (powerId != power.powerId) return false;
         if (powerAction != null ? !powerAction.equals(power.powerAction) : power.powerAction != null) return false;
         if (powerName != null ? !powerName.equals(power.powerName) : power.powerName != null) return false;
+        if (powerScope != null ? !powerScope.equals(power.powerScope) : power.powerScope != null) return false;
 
         return true;
     }
@@ -62,6 +73,7 @@ public class Power {
     public int hashCode() {
         int result = powerName != null ? powerName.hashCode() : 0;
         result = 31 * result + (powerAction != null ? powerAction.hashCode() : 0);
+        result = 31 * result + (powerScope != null ? powerScope.hashCode() : 0);
         result = 31 * result + powerId;
         return result;
     }

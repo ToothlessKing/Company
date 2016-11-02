@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -45,7 +46,14 @@ public class LoginController {
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     @RequestMapping("/exitSys")
-    public void exitSys (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
+    public void getUserMag (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
         session.removeAttribute("loginUser");
+    }
+    @RequestMapping("/getUserMag")
+    public void exitSys (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
+        Map map = new HashMap<>();
+        map.put("loginUser",(Employee)session.getAttribute("loginUser"));
+        map.put("userPower",(Map)session.getAttribute("userPower"));
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(map));
     }
 }

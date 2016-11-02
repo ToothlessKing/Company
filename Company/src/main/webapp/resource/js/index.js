@@ -5,6 +5,12 @@ $.index =
 {
     init: function()
     {
+        //$.common.init();
+        //var oUl=document.getElementById("_easyui_tree_6");
+        //$("#test").tree('remove',oUl);
+        //$("#pt").hide();
+        //$("#_easyui_tree_6").remove();
+        //$("#pUl li:first-child").remove();
         $.index.onClickTree();
         $.index.contextMenu();
         $.index.onClickMenu();

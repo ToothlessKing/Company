@@ -101,20 +101,22 @@ public class EmployeeController {
      */
     @RequestMapping("/updateEmployeeData")
     public void updateEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Employee employee
-            ,int departmentId,int roleId,int companyId)throws IOException{
+            ,int departmentId,int roleId,int companyId,String action)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
         int flag = service.updateEmployeeData(employee);
-        EmployeeRole employeeRole = new EmployeeRole();
-        employeeRole.setRoleId(roleId);
-        employeeRole.setEmployeeId(employee.getEmployeeId());
-        EmployeeCompanyDepartment employeeCompanyDepartment = new EmployeeCompanyDepartment();
-        employeeCompanyDepartment.setEmployeeId(employee.getEmployeeId());
-        employeeCompanyDepartment.setCompanyId(companyId);
-        employeeCompanyDepartment.setDepartmentId(departmentId);
-        ECDService.updateECD(employeeCompanyDepartment);
-        eRService.updateEmployeeRole(employeeRole);
+        if(action.equalsIgnoreCase("editEmployee")){
+            EmployeeRole employeeRole = new EmployeeRole();
+            employeeRole.setRoleId(roleId);
+            employeeRole.setEmployeeId(employee.getEmployeeId());
+            EmployeeCompanyDepartment employeeCompanyDepartment = new EmployeeCompanyDepartment();
+            employeeCompanyDepartment.setEmployeeId(employee.getEmployeeId());
+            employeeCompanyDepartment.setCompanyId(companyId);
+            employeeCompanyDepartment.setDepartmentId(departmentId);
+            ECDService.updateECD(employeeCompanyDepartment);
+            eRService.updateEmployeeRole(employeeRole);
+        }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*

@@ -267,7 +267,8 @@ $.Employee =
                 //companyName:companyName,
                 //roleName:roleName,
                 employeeEmail:employeeEmail,
-                password:password
+                password:password,
+                action:"editEmployee"
             },
             success:function(data){
                 if(data=="1")

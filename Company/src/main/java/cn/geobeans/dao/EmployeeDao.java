@@ -17,34 +17,9 @@ import java.util.Map;
      */
 @Repository
 public class EmployeeDao extends DaoHibernateImpl<Employee,Integer> {
-    
+
         public List queryEmployeeData(Map map){
-    
-//            DetachedCriteria dc = DetachedCriteria.forClass(Employee.class);
-//            Criteria criteria = createCriteria();
-//            String employeeName = (String) map.get("employeeName");
-//            String employeeId = (String) map.get("employeeId");
-//            if(employeeName!=null&&!employeeName.equalsIgnoreCase("")){
-//                criteria.add(Restrictions.eq("employeeName",employeeName));
-//            }
-//            if(employeeId!=null&&!employeeId.equalsIgnoreCase("")){
-//                criteria.add(Restrictions.eq("employeeId",Integer.parseInt(employeeId)));
-//            }
-//            List sorts = (List) map.get("sorts");
-//            List orders = (List) map.get("orders");
-//            for(int i=0 ; i<sorts.size(); i++){
-//                if(((String)orders.get(i)).equalsIgnoreCase("desc")){
-//                    criteria.addOrder(Order.desc((String) sorts.get(i)));
-//                }
-//                else{
-//                    criteria.addOrder(Order.asc((String)sorts.get(i)));
-//                }
-//            }
-//            criteria.setFirstResult((Integer) map.get("startNum"));
-//            criteria.setMaxResults((Integer) map.get("pageSize"));
-//
-//            List list = criteria.list();
-//            return  list;
+
             String hql = "SELECT e.employeeEmail,e.employeeId,e.employeeName,e.employeePhone,e.employeeSex,e.password\n" +
                     ",newTable.companyId,newTable.companyName,newTable.departmentId,newTable.departmentName,newTable.roleId,newTable.roleName\n" +
                     "from Employee e \n" +
@@ -64,7 +39,7 @@ public class EmployeeDao extends DaoHibernateImpl<Employee,Integer> {
             if(employeeId!=null&&!employeeId.equalsIgnoreCase("")){
                 whereSql += " and employeeId = "+ employeeId;
             }
-            whereSql += " order by "+orders;
+            whereSql += " order by "+orders + " limit "+(int)map.get("startNum")+","+(int)map.get("pageSize");
             hql += whereSql;
             List list =getSession().createSQLQuery(hql).list();// createQuery(hql).list();
             System.out.println(hql);
@@ -87,12 +62,6 @@ public class EmployeeDao extends DaoHibernateImpl<Employee,Integer> {
                 newMap.put("roleName",(String)objects[11]);
                 returnList.add(newMap);
             }
-//            Object[] object = (Object[])list.get(1);
-//            map.put("powerName",(String)object[0]);
-//            map.put("powerId",Integer.parseInt(String.valueOf(object[1])));
-//            map.put("roleId",Integer.parseInt(String.valueOf(object[2])));
-//            map.put("roleName",(String)object[3]);
-//            map.put("powerAction",(String)object[4]);
             return returnList;
         }
         public int queryEmployeeCount(Map map){

@@ -39,7 +39,7 @@
     </tr>
   </table>
 </div>
-<div style="width:600px;height:500px">
+<div style="width:auto;height:500px">
   <table id="PowerGrid">
   </table>
 </div>
@@ -58,8 +58,9 @@
       </td>
     </tr>
     <tr>
-      <td>包含权限：</td>
-      <td></td>
+      <td>应用范围：</td>
+      <td> <input type="radio" class="radioGroup" name="powerScope" value="整个公司" />整个公司&nbsp
+        <input type="radio" class="radioGroup" name="powerScope" value="所在分公司" />所在分公司&nbsp</td>
     </tr>
     <tr>
       <td>&nbsp部门管理</td>

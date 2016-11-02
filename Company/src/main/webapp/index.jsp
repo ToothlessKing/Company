@@ -33,30 +33,30 @@
 <!-- end of header -->
 <!-- begin of sidebar -->
 <div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'"  style="overflow:hidden;">
-    <div class="easyui-accordion" data-options="border:false,fit:false,multiple:true">
+    <div class="easyui-accordion" id="accordion" data-options="border:false,fit:false,multiple:true">
 
-        <div title="员工管理" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
+        <div title="员工管理" data-options="iconCls:'icon-application-form-edit'" id="eMessage" display="none" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
                 <li><a href="javascript:void(0)" id="dds">dsdsdsd</a> </li>
-                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="DataGrid.jsp" iframe="1">员工信息</a></li>
+                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Employee.jsp" iframe="1">员工信息</a></li>
             </ul>
         </div>
-        <div title="部门管理" data-options="iconCls:'icon-cart'" style="padding:5px;">
+        <div title="部门管理" data-options="iconCls:'icon-cart'" id="dMessage" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
                 <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Department.jsp" iframe="1">部门信息</a></li>
 
             </ul>
         </div>
-        <div title="分公司管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">
+        <div title="分公司管理" data-options="iconCls:'icon-creditcards'" id="cMessage" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
-                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="treeTable.jsp" iframe="1">异步树表</a></li>
+                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Company.jsp" iframe="1">分公司信息</a></li>
                 <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="treeTable2.jsp" iframe="1">同步树表</a></li>
             </ul>
         </div>
-        <div title="权限管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">
-            <ul class="easyui-tree wu-side-tree">
-                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="treeTable.jsp" iframe="1">角色管理</a></li>
-                <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="treeTable2.jsp" iframe="1">权限管理</a></li>
+        <div title="权限管理" data-options="iconCls:'icon-creditcards'" id="pMessage" style="padding:5px;">
+            <ul class="easyui-tree wu-side-tree" id="pUl">
+                <li iconCls="icon-chart-organisation" title="ss" style="display:none"  id="pt"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Role.jsp" iframe="1">角色管理</a></li>
+                <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="resource/jsp/Power.jsp" iframe="1">权限管理</a></li>
             </ul>
         </div>
         <div title="个人信息管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">
