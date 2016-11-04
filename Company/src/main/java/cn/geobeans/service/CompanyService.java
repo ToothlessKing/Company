@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,58 @@ public class CompanyService {
 
     public List<Company> getAll(){
         return dao.getAll();
+    }
+
+    public Map loadTree(Map paramMap,String companyId){
+        Map returnMap =new HashMap<>();
+        List list = new ArrayList<>();
+        if(companyId.equalsIgnoreCase("0")){
+            List<Company> companyList = dao.queryCompanyData(paramMap);
+            for(int i=0 ;i<companyList.size() ;i++){
+                Map map = new HashMap<>();
+                Company company = companyList.get(i);
+                map.put("companyId",company.getCompanyId());
+                map.put("companyName",company.getCompanyName());
+                map.put("companyAddress",company.getCompanyAddress());
+                map.put("state","closed");
+                list.add(map);
+            }
+        }
+        returnMap.put("rows",list);
+        returnMap.put("total",dao.queryCompanyCount(paramMap));
+        return returnMap;
+    }
+    public List loadNode(String companyId){
+        List list = new ArrayList<>();
+        if(companyId.equalsIgnoreCase("0")){
+            List<Company> companyList = getAll();
+            for(int i=0 ;i<companyList.size() ;i++){
+                Map map = new HashMap<>();
+                Company company = companyList.get(i);
+                map.put("companyId",company.getCompanyId());
+                map.put("companyName",company.getCompanyName());
+                map.put("companyAddress",company.getCompanyAddress());
+                map.put("state","closed");
+                list.add(map);
+            }
+        }
+        else{
+
+            List objList = dao.loadTree(companyId);
+            for(int i=0 ;i<objList.size() ;i++){
+                Object[] objects = (Object[])objList.get(i);
+                Map map = new HashMap<>();
+                map.put("companyName",(String)objects[2]);
+                map.put("departmentId", " "+String.valueOf(objects[1]));
+                map.put("departmentName",(String)objects[2]);
+                map.put("state","open");
+                list.add(map);
+            }
+        }
+        return list;
+    }
+    public int getMaxId(){
+        return dao.getMaxId();
     }
 
 

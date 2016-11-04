@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,5 +53,19 @@ public class DepartmentService {
 
     public List<Department> getAll(){
         return dao.getAll();
+    }
+
+    public List<Department> queryBy(int companyId){
+        List list = dao.queryBy(companyId);
+        List reList = new ArrayList<>();
+        for(int i=0 ;i< list.size();i++){
+            Object[] objects = (Object[])list.get(i);
+            Department department = new Department();
+            department.setDepartmentId((int)objects[0]);
+            department.setDepartmentName((String)objects[1]);
+            department.setDepartmentDescribe((String)objects[2]);
+            reList.add(department);
+        }
+        return reList;
     }
 }

@@ -1,10 +1,12 @@
 package cn.geobeans.controller;
 
 import cn.geobeans.bean.Company;
+import cn.geobeans.service.CompanyDepartmentService;
 import cn.geobeans.service.CompanyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +22,12 @@ import java.util.*;
 public class CompanyController {
     @Autowired
     CompanyService service;
+    @Autowired
+    CompanyDepartmentService companyDepartmentService;
 
     ObjectMapper mapper = new ObjectMapper();
     /*
-       角色信息查询
+       分公司信息查询
      */
     @RequestMapping("/queryCompanyData")
     public void  queryCompanyData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String companyName,String companyId,
@@ -53,30 +57,38 @@ public class CompanyController {
 
     }
     /*
-       角色信息添加
+       分公司信息添加
      */
     @RequestMapping("/addCompanyData")
-    public void addCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company)throws IOException{
+    public void addCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentIds)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
         System.out.println(company);
         int flag = service.addCompanyData(company);
+
+        if(flag!=0){
+            company.setCompanyId(service.getMaxId());
+            companyDepartmentService.addData(company.getCompanyId(), departmentIds);
+        }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    角色权限信息
+    分公司信息更新
      */
     @RequestMapping("/updateCompanyData")
-    public void updateCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company)throws IOException{
+    public void updateCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentIds)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
         int flag = service.updateCompanyData(company);
+        if(flag!=0){
+            companyDepartmentService.addData(company.getCompanyId(), departmentIds);
+        }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    删除角色信息（可批量）
+    删除分公司信息（可批量）
      */
     @RequestMapping("/removeCompanyData")
     public void removeCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String companyids,int count)throws IOException{
@@ -102,6 +114,23 @@ public class CompanyController {
         httpServletResponse.setCharacterEncoding("UTF-8");
         List<Company> list = service.getAll();
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
+    }
+    @RequestMapping("/loadTree")
+    public void loadTree(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,String id,int rows, int page,String companyId,String companyName) throws IOException{
+        if(id.equalsIgnoreCase("0")){
+            Map map = new HashMap<>();
+            map.put("startNum", rows * (page - 1));
+            map.put("pageSize", rows);
+            map.put("companyId", companyId);
+            map.put("companyName", companyName);
+            Map returnMap = service.loadTree(map,id);
+            httpServletResponse.getWriter().write(mapper.writeValueAsString(returnMap));
+        }else{
+            List list = service.loadNode(id);
+            httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
+        }
+
+
     }
 
 

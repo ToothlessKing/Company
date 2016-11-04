@@ -13,7 +13,7 @@ $.Repass = {
                 alert(data.loginUser.password);
                 $.common.loginUser = data.loginUser;
                 $.common.userPower = data.userPower;
-                $.common.setDisable();
+                //$.common.setDisable();
 
             }
         });
@@ -53,7 +53,7 @@ $.Repass = {
                     //companyName:companyName,
                     //roleName:roleName,
                     employeeEmail:$.common.loginUser.employeeEmail,
-                    password:$.common.loginUser.password,
+                    password:newpass,
                     action:"editPass"
                 },
                 success:function(data){

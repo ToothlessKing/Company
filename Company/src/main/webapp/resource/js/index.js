@@ -168,7 +168,7 @@ $.index =
         var flag = confirm("确认退出系统？");
         if(flag){
             $.ajax({
-                url: $.common.base+"/login/exitSys",
+                url: $.common.base+"/login/exitSys.do",
                 success:function(data){
                     window.location.href="login.jsp";
                 }

@@ -91,5 +91,11 @@ public class DepartmentDao extends DaoHibernateImpl<Department,Integer> {
         }
         return  0;
     }
+    public List queryBy(int companyId){
+        String hql = "SELECT d.* from  department d,company_department cd\n" +
+                "where d.departmentId=cd.departmentId\n" +
+                "and cd.companyId = "+companyId;
+        return getSession().createSQLQuery(hql).list();
+    }
 
 }

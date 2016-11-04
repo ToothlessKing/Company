@@ -119,5 +119,12 @@ public class DepartmentController {
         List<Department> list = service.getAll();
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
     }
+    @RequestMapping("/queryBy")
+    public void queryBy(HttpServletRequest httpServletRequest, int companyId,HttpServletResponse httpServletResponse) throws IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        List<Department> list = service.queryBy(companyId);
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
+    }
 }
 

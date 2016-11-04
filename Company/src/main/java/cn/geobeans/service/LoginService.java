@@ -21,7 +21,7 @@ public class LoginService {
     @Autowired
     LoginDao dao;
 
-    public Employee queryPassByUser(String username,String password){
+    public Employee queryPassByUser(String username){
 
         return  dao.queryPassByUser(username);
 

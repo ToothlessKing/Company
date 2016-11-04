@@ -27,7 +27,7 @@ public class LoginController {
     @RequestMapping("/login")
     public void login (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session,String username,String password)throws IOException {
         int flag = 0;
-        Employee employee = service.queryPassByUser(username,password);
+        Employee employee = service.queryPassByUser(username);
         if(employee.getPassword()==null||employee.getPassword().trim().equalsIgnoreCase("")){
             flag =-1;
         }
@@ -52,8 +52,13 @@ public class LoginController {
     @RequestMapping("/getUserMag")
     public void exitSys (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
         Map map = new HashMap<>();
-        map.put("loginUser",(Employee)session.getAttribute("loginUser"));
-        map.put("userPower",(Map)session.getAttribute("userPower"));
+        Employee employee =(Employee)session.getAttribute("loginUser");
+        Employee employee2 = service.queryPassByUser(employee.getEmployeeName());
+        Map map2 = service.queryPower(employee2.getEmployeeId());
+        map.put("loginUser",employee2);
+        map.put("userPower",map2);
+        session.setAttribute("loginUser",employee2);
+        session.setAttribute("userPower",map2);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(map));
     }
 }
