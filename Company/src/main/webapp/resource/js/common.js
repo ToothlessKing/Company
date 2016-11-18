@@ -9,6 +9,7 @@ $.common = {
         $.ajax({
             type:"POST",
             dataType: "json",
+            async:false,
             url: $.common.base+"/user/getUserMag.do",
             success:function(data){
                 $.common.loginUser = data.loginUser;

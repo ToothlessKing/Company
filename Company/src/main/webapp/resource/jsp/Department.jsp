@@ -13,21 +13,23 @@
     <link rel="stylesheet" href="../tool/jquery-easyui-1.4/themes/icon.css">
     <script src="../tool/jquery-easyui-1.4/jquery.min.js"></script>
     <script src="../tool/jquery-easyui-1.4/jquery.easyui.min.js"></script>
+    <script src="../tool/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"></script>
     <!--下面的使easyui datagrid 行拖拽插件-->
     <script src="../tool/jquery-easyui-1.4/datagrid-dnd.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/Department.js"></script>
-    <script>
+    <script >
       $(function(){
         $.Department.init();
       })
     </script>
+
 </head>
-<body >
-    <div>
+<body>
+    <div  title=" " >
         <table>
             <tr>
-                <td>部门号：</td>
+                <td >&nbsp;部门号：</td>
                 <td>
                     <input type="text" class="easyui-textbox" id="department_id" />
                 </td>
@@ -39,7 +41,7 @@
             </tr>
         </table>
     </div>
-    <div style="width:500px;height: 500px">
+    <div style="height: 700px">
       <table id="DepartmentGrid">
       </table>
     </div>

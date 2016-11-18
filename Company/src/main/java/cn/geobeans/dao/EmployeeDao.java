@@ -2,9 +2,6 @@
 
 import cn.geobeans.bean.Employee;
 import cn.geobeans.common.database.DaoHibernateImpl;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -31,13 +28,17 @@ public class EmployeeDao extends DaoHibernateImpl<Employee,Integer> {
                     "on  e.employeeId = newTable.eId ";
             String employeeName = (String) map.get("employeeName");
             String employeeId = (String) map.get("employeeId");
+            String companyId = (String) map.get("companyId");
             String orders =  (String) map.get("orders");
             String whereSql =" where 1=1";
             if(employeeName!=null&&!employeeName.equalsIgnoreCase("")){
-                whereSql += " and employeeName = '"+employeeName+"'";
+                whereSql += " and employeeName like '%"+employeeName+"%'";
             }
             if(employeeId!=null&&!employeeId.equalsIgnoreCase("")){
                 whereSql += " and employeeId = "+ employeeId;
+            }
+            if(companyId!=null&&!companyId.equalsIgnoreCase("")){
+                whereSql += " and companyId = "+ companyId;
             }
             whereSql += " order by "+orders + " limit "+(int)map.get("startNum")+","+(int)map.get("pageSize");
             hql += whereSql;
@@ -65,17 +66,30 @@ public class EmployeeDao extends DaoHibernateImpl<Employee,Integer> {
             return returnList;
         }
         public int queryEmployeeCount(Map map){
-            Criteria criteria = createCriteria();
+//            Criteria criteria = createCriteria();
+//            String employeeName = (String) map.get("employeeName");
+//            String employeeId = (String) map.get("employeeId");
+//            if(employeeName!=null&&!employeeName.equalsIgnoreCase("")){
+//                criteria.add(Restrictions.eq("employeeName",employeeName));
+//            }
+//            if(employeeId!=null&&!employeeId.equalsIgnoreCase("")){
+//                criteria.add(Restrictions.eq("employeeId",Integer.parseInt(employeeId)));
+//            }
+//            int count = ((Long)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+            String hql = "select count(*) from Employee as e where 1=1";
             String employeeName = (String) map.get("employeeName");
             String employeeId = (String) map.get("employeeId");
+            String companyId = (String) map.get("companyId");
             if(employeeName!=null&&!employeeName.equalsIgnoreCase("")){
-                criteria.add(Restrictions.eq("employeeName",employeeName));
+                hql += " and  e.employeeName like '%"+employeeName+"%'";
             }
             if(employeeId!=null&&!employeeId.equalsIgnoreCase("")){
-                criteria.add(Restrictions.eq("employeeId",Integer.parseInt(employeeId)));
+                hql += " and e.employeeId ="+employeeId;
             }
-            int count = ((Long)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-    
+            if(companyId!=null&&!companyId.equalsIgnoreCase("")){
+                hql += " and e.employeeId in (select ecd.employeeId from EmployeeCompanyDepartment ecd where ecd.companyId="+companyId+")";
+            }
+            int count = ((Number)createQuery(hql).uniqueResult()).intValue();
             return  count;
         }
         public int addEmployeeData(Employee employee){

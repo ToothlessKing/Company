@@ -38,6 +38,8 @@ public class LoginService {
             map.put("roleId",Integer.parseInt(String.valueOf(object[3])));
             map.put("roleName",(String)object[4]);
             map.put("powerAction",(String)object[5]);
+            map.put("companyId",Integer.parseInt(String.valueOf(object[6])));
+            map.put("departmentId",Integer.parseInt(String.valueOf(object[7])));
         }
         else {
             map.put("powerName","");
@@ -46,6 +48,8 @@ public class LoginService {
             map.put("roleId","");
             map.put("roleName","");
             map.put("powerAction","");
+            map.put("companyId","");
+            map.put("departmentId","");
         }
         return map;
     }

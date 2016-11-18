@@ -33,7 +33,7 @@ public class DepartmentController {
        @return json数据
      */
     @RequestMapping("/queryDepartmentData")
-    public void queryDepartmentData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String departmentNo, String departmentName,
+    public void queryDepartmentData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String departmentNo, String departmentName,String companyId,
                                     int rows, int page, String sort, String order) throws IOException {
         //String departmentName = new String(httpServletRequest.getParameter("departmentName").getBytes("ISO8859-1"), "UTF-8");
         departmentName = java.net.URLDecoder.decode(departmentName, "UTF-8");
@@ -42,7 +42,6 @@ public class DepartmentController {
         List sorts = new ArrayList();
         List orders = new ArrayList();
         if (sort == null) {
-
             sorts.add("departmentId");
             orders.add("ASC");
         } else {
@@ -56,6 +55,7 @@ public class DepartmentController {
         map.put("orders", orders);
         map.put("department_id", departmentNo);
         map.put("department_name", departmentName);
+        map.put("companyId",companyId);
         resultMap = service.queryDepartmentData(map);
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(resultMap));

@@ -5,7 +5,7 @@ $.index =
 {
     init: function()
     {
-        //$.common.init();
+        $.common.init();
         //var oUl=document.getElementById("_easyui_tree_6");
         //$("#test").tree('remove',oUl);
         //$("#pt").hide();
@@ -168,7 +168,7 @@ $.index =
         var flag = confirm("确认退出系统？");
         if(flag){
             $.ajax({
-                url: $.common.base+"/login/exitSys.do",
+                url: $.common.base+"/user/exitSys.do",
                 success:function(data){
                     window.location.href="login.jsp";
                 }

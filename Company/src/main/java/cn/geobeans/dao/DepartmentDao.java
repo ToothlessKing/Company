@@ -3,6 +3,7 @@ package cn.geobeans.dao;
 import cn.geobeans.bean.Department;
 import cn.geobeans.common.database.DaoHibernateImpl;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -96,6 +97,59 @@ public class DepartmentDao extends DaoHibernateImpl<Department,Integer> {
                 "where d.departmentId=cd.departmentId\n" +
                 "and cd.companyId = "+companyId;
         return getSession().createSQLQuery(hql).list();
+    }
+    public List queryDepartment(Map map){
+        String hql = "select d from Department as d where 1=1";
+        //String hql = "select d from Department as d ,CompanyDepartment as cd where 1=1 ";
+        String departmentId = (String) map.get("department_id");
+        String departmentName = (String) map.get("department_name");
+        String companyId = (String) map.get("companyId");
+        if(departmentId!=null&&!departmentId.equalsIgnoreCase("")){
+            hql += " and d.departmentId="+departmentId;
+        }
+        if(departmentName!=null&&!departmentName.equalsIgnoreCase("")){
+            hql += " and d.departmentName like '%"+departmentName+"%'";
+        }
+        if(companyId!=null&&!companyId.equalsIgnoreCase("")){
+            //hql += " and cd.companyId="+companyId+" and cd.departmentId = d.departmentId";
+            hql += " and d.departmentId in (select cd.departmentId from CompanyDepartment as cd where cd.companyId="+companyId+" )";
+        }
+        hql += " order by ";
+        List sorts = (List) map.get("sorts");
+        List orders = (List) map.get("orders");
+        for(int i=0 ; i<sorts.size(); i++){
+            if(i==0){
+                hql += " d."+(String)sorts.get(i)+" "+(String)orders.get(i);
+            }
+            else{
+                hql += ", d."+(String)sorts.get(i)+" "+(String)orders.get(i);
+            }
+        }
+        //hql += " limit "+(Integer)map.get("startNum")+","+(Integer)map.get("pageSize");
+        Query query =createQuery(hql);
+        query.setFirstResult((Integer)map.get("startNum"));
+        query.setMaxResults((Integer)map.get("pageSize"));
+        List list =createQuery(hql).list();
+        return  list;
+    }
+    public int queryDepartmentCounts(Map map){
+        //String hql = "select count(*) from Department as d ,CompanyDepartment as cd where 1=1 ";
+        String hql = "select count(*) from Department as d where 1=1";
+        String departmentId = (String) map.get("department_id");
+        String departmentName = (String) map.get("department_name");
+        String companyId = (String) map.get("companyId");
+        if(departmentId!=null&&!departmentId.equalsIgnoreCase("")){
+            hql += " and d.departmentId="+departmentId;
+        }
+        if(departmentName!=null&&!departmentName.equalsIgnoreCase("")){
+            hql += " and d.departmentName like '%"+departmentName+"%'";
+        }
+        if(companyId!=null&&!companyId.equalsIgnoreCase("")){
+           // hql += " and cd.companyId="+companyId+" and cd.departmentId = d.departmentId";
+            hql += " and d.departmentId in (select cd.departmentId from CompanyDepartment as cd where cd.companyId="+companyId+" )";
+        }
+        int count = ((Number)createQuery(hql).uniqueResult()).intValue();
+        return  count;
     }
 
 }

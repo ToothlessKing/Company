@@ -3,7 +3,9 @@
  */
 $.Role =
 {
+
     base: $.common.base,
+    userPower:"",
     roleId:"",
     roleName:"",
     columns:[
@@ -13,8 +15,8 @@ $.Role =
                 {field:'roleName',title:'角色名',width:100},
                 {field:'action',title:'操作',width:100,
                     formatter:function(value,row,index){
-                        var html = '<a href="#" id="updateBtn" onclick="$.Role.clickUpdate('+index+')">[修改]</a>'
-                            +'<a href="#" id="deleBtn" onclick="$.Role.clickDele('+row.roleId+","+1+')">[删除]</a>';
+                        var html = '<a href="#" class="updateBtn" onclick="$.Role.clickUpdate('+index+')">[修改]</a>'
+                            +'<a href="#" class="deleBtn" onclick="$.Role.clickDele('+row.roleId+","+1+')">[删除]</a>';
                         return html;
 
                     }
@@ -25,6 +27,8 @@ $.Role =
      */
     init:function()
     {
+        $.common.init();
+        $.Role.userPower = $.common.userPower.powerAction;
         $.Role.initDataGrid();
         $.Role.initClickEvent();
 
@@ -69,12 +73,23 @@ $.Role =
                     }
                 }
 
-            ]
+            ],
+            onLoadSuccess:function(data){
+                if($.Role.userPower.indexOf("角色添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(0).hide();
+                }
+                if($.Role.userPower.indexOf("角色修改")==-1){
+                    $(".updateBtn").hide();
+                }
+                if($.Role.userPower.indexOf("角色删除")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(1).hide();
+                    $(".deleBtn").hide();
+                }
+                if($.Role.userPower.indexOf("角色删除")==-1&&userPower.indexOf("角色添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar').hide();
+                }
+            }
 
-        }).datagrid('getPager').pagination({
-            beforePageText :'第',
-            afterPageText :'页 共{pages}页',
-            displayMsg:   '共{total}条记录'
         });
     },
     /*

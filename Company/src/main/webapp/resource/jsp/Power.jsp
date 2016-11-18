@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../tool/jquery-easyui-1.4/themes/icon.css">
   <script src="../tool/jquery-easyui-1.4/jquery.min.js"></script>
   <script src="../tool/jquery-easyui-1.4/jquery.easyui.min.js"></script>
+  <script src="../tool/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"></script>
   <!--下面的使easyui datagrid 行拖拽插件-->
   <script src="../tool/jquery-easyui-1.4/datagrid-dnd.js"></script>
   <script src="../js/common.js"></script>

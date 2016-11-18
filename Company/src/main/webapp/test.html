@@ -79,7 +79,7 @@
             var name = "geojson";
 
             // 2、GeoJson文件所在的地址
-            var url = "resource/data/polygon-samples.geojson";
+            var url = "resource/data/polygon-samples.json";
 
             // 3、创建一个图层
             // 参数一：图层的名称
@@ -113,7 +113,7 @@
     <title>Map5 -- GeoJson图层</title>
 <body onload="init()">
 <!-- mapDiv 为初始化地图的容器，给定高度和宽度，并指定定位方式为绝对定位 -->
-<div id="mapDiv" style="height:800px;width:100%;position:absolute;top:80px;">
+<div id="mapDiv" style="height:600px;width:700px;position:absolute;top:80px;">
 </div>
 <button onclick="addGeoJson()">加载geojson_点</button>
 <button onclick="addGeoJson2()">加载geojson_面</button>

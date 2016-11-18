@@ -11,8 +11,14 @@
         $.login.init();
 
     </script>
+    <style>
+        body {
+            background: url("resource/tool/images/login3.jpg");
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body>
+<body >
 <div class="admin_login_wrap">
     <h1>登陆界面</h1>
     <div class="adming_login_border">
@@ -21,11 +27,11 @@
                 <ul class="admin_items">
                     <li>
                         <label for="user">用户名：</label>
-                        <input type="text" name="username" value="" onfocus="" id="username" size="40" class="admin_input_style" />
+                        <input type="text" name="username" value="" onfocus="" id="username" size="35" class="admin_input_style" />
                     </li>
                     <li>
                         <label for="pwd">密码：</label>
-                        <input type="password" name="password" value="" id="password" size="40" class="admin_input_style" />
+                        <input type="password" name="password" value="" id="password" size="35" class="admin_input_style" />
                     </li>
                     <li>
                         <input type="button" tabindex="3" value="提交" onclick="$.login.initSumbit()" class="btn btn-primary" />

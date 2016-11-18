@@ -10,7 +10,7 @@ $.Repass = {
             dataType: "json",
             url: $.common.base+"/user/getUserMag.do",
             success:function(data){
-                alert(data.loginUser.password);
+
                 $.common.loginUser = data.loginUser;
                 $.common.userPower = data.userPower;
                 //$.common.setDisable();

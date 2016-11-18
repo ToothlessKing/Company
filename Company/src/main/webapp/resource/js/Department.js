@@ -6,15 +6,17 @@ $.Department =
     base: $.common.base,
     departmentNo:"",
     departmentName:"",
+    userCompanyId:"",
+    userPower:"",
     columns:[
                 {field:'checkbox',checkbox:true},
-                {field:'departmentId',title:'部门号',width:50,sortable:true},
-                {field:'departmentName',title:'部门名称',width:100,sortable:true},
-                {field:'departmentDescribe',title:'部门职责描述',width:100},
-                {field:'action',title:'操作',width:100,
+                {field:'departmentId',title:'部门号',sortable:true},
+                {field:'departmentName',title:'部门名称',sortable:true},
+                {field:'departmentDescribe',title:'部门职责描述'},
+                {field:'action',title:'操作',
                     formatter:function(value,row,index){
-                        var html = '<a href="#" id="updateBtn" onclick="$.Department.clickUpdate('+index+')">[修改]</a>'
-                            +'<a href="#" id="deleBtn" onclick="$.Department.clickDele('+row.departmentId+","+1+')">[删除]</a>';
+                        var html = '<a href="#" class="updateBtn" onclick="$.Department.clickUpdate('+index+')">[修改]</a>'
+                            +'<a href="#" class="deleBtn" onclick="$.Department.clickDele('+row.departmentId+","+1+')">[删除]</a>';
                         return html;
 
                     }
@@ -25,9 +27,14 @@ $.Department =
      */
     init:function()
     {
+        $.common.init();
+        $.Department.userPower = $.common.userPower.powerAction;
+        var powerScope = $.common.userPower.powerScope;
+        if(powerScope=="所在分公司"){
+            $.Department.userCompanyId= $.common.userPower.companyId;
+        }
         $.Department.initDataGrid();
         $.Department.initClickEvent();
-
     },
     /*
     初始化表格 默认全部查找
@@ -36,7 +43,7 @@ $.Department =
     initDataGrid:function()
     {
         $("#DepartmentGrid").datagrid({
-            url:$.Department.base+"/department/queryDepartmentData.do?departmentNo="+$.Department.departmentNo+"&departmentName="+encodeURI($.Department.departmentName),
+            url:$.Department.base+"/department/queryDepartmentData.do?departmentNo="+$.Department.departmentNo+"&departmentName="+encodeURI($.Department.departmentName)+"&companyId="+$.Department.userCompanyId,
             //url:$.Department.base+"/department/queryDepartmentData.do",
             //queryParams:{departmentNo:$.Department.departmentNo,
             //            departmentName:$.Department.departmentName
@@ -47,11 +54,13 @@ $.Department =
             remoteSort:true,//本地排序时为false
             multiSort:true,
             fit:true,
+            fitcolumns:true,
             rownumbers:true,
             pageSize:20,
             pageList:[10,20,30,40],
             toolbar : [
                 {
+                    id:"addBar",
                     iconCls:'icon-add',
                     text: '添加',
                     handler:function () {
@@ -59,6 +68,7 @@ $.Department =
                         $('#addDialog').dialog('open').dialog('setTitle','新增界面');
                     }
                 }, {
+                    id:"removeBar",
                     iconCls:'icon-remove',
                     text: '批量删除',
                     handler:function () {
@@ -66,12 +76,23 @@ $.Department =
                     }
                 }
 
-            ]
+            ],
+            onLoadSuccess:function(data){
+                if($.Department.userPower.indexOf("部门添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(0).hide();
+                }
+                if($.Department.userPower.indexOf("部门修改")==-1){
+                    $(".updateBtn").hide();
+                }
+                if($.Department.userPower.indexOf("部门删除")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(1).hide();
+                    $(".deleBtn").hide();
+                }
+                if($.Department.userPower.indexOf("部门删除")==-1&&userPower.indexOf("部门添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar').hide();
+                }
+            }
 
-        }).datagrid('getPager').pagination({
-            beforePageText :'第',
-            afterPageText :'页 共{pages}页',
-            displayMsg:   '共{total}条记录'
         });
     },
     /*
@@ -98,7 +119,7 @@ $.Department =
             $.Department.departmentNo = $('#department_id').textbox('getValue');
             $.Department.departmentName = $('#department_name').textbox('getValue');
             $("#DepartmentGrid").datagrid({
-                url:$.Department.base+"/department/queryDepartmentData.do?departmentNo="+$.Department.departmentNo+"&departmentName="+$.Department.departmentName
+                url:$.Department.base+"/department/queryDepartmentData.do?departmentNo="+$.Department.departmentNo+"&departmentName="+$.Department.departmentName+"&companyId="+$.Department.userCompanyId
             });
 
         });

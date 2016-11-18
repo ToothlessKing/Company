@@ -68,6 +68,7 @@ public class CompanyController {
         int flag = service.addCompanyData(company);
 
         if(flag!=0){
+
             company.setCompanyId(service.getMaxId());
             companyDepartmentService.addData(company.getCompanyId(), departmentIds);
         }
@@ -116,8 +117,10 @@ public class CompanyController {
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
     }
     @RequestMapping("/loadTree")
-    public void loadTree(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,String id,int rows, int page,String companyId,String companyName) throws IOException{
+    public void loadTree(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int rows, int page,String companyId,String companyName) throws IOException{
+        String id =httpServletRequest.getParameter("id");
         if(id.equalsIgnoreCase("0")){
+            id = "0";
             Map map = new HashMap<>();
             map.put("startNum", rows * (page - 1));
             map.put("pageSize", rows);
@@ -132,6 +135,61 @@ public class CompanyController {
 
 
     }
+    @RequestMapping("/loadJson")
+    public void loadJson(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int rows, int page,String companyId,String companyName,String flag) throws IOException{
+        String id =httpServletRequest.getParameter("id");
+        if(id.equalsIgnoreCase("0")){
+            id = "0";
+            Map map = new HashMap<>();
+            map.put("startNum", rows * (page - 1));
+            map.put("pageSize", rows);
+            map.put("companyId", companyId);
+            map.put("companyName", companyName);
+            Map returnMap = service.loadTree(map, id);
+            if(flag.equalsIgnoreCase("point")){
+                httpServletResponse.getWriter().write(mapper.writeValueAsString((Map)returnMap.get("json_point")));
+            }
+            else if(flag.equalsIgnoreCase("polygo")){
+                httpServletResponse.getWriter().write(mapper.writeValueAsString((Map)returnMap.get("json_polygo")));
+            }
+            else {
+                httpServletResponse.getWriter().write(mapper.writeValueAsString((Map)returnMap.get("json")));
+            }
+
+        }
+
+
+    }
+    @RequestMapping("/updateCoor")
+    public void updateCoor(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int companyId,String coor) throws IOException{
+
+
+        int msg = service.updateCoor(companyId,coor);
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
+    }
+    @RequestMapping("/updateScope")
+    public void saveScope(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int companyId,String scope) throws IOException{
+
+        int msg = service.saveScope(companyId, scope);
+
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
+
+
+    }
+    @RequestMapping("/loadFirmTree")
+    public void loadFirmTree(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException{
+        String id = httpServletRequest.getParameter("id");
+        if(id.equalsIgnoreCase("")||id==null){
+            id = "0";
+        }
+        List list = service.loadFirmTree(id);
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
+    }
+    @RequestMapping("/loadTreeJson")
+    public void loadTreeJson(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException{
+        httpServletResponse.getWriter().write(mapper.writeValueAsString(service.loadTreeJson()));
+    }
+
 
 
 

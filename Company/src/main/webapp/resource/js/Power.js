@@ -6,6 +6,7 @@
  */
 $.Power =
 {
+    userPower:"",
     powerName:"",
     powerAction:"",
     columns:[
@@ -16,8 +17,8 @@ $.Power =
         {field:'powerAction',title:'拥有权限',width:580},
         {field:'action',title:'操作',width:150,
             formatter:function(value,row,index){
-                var html = '<a href="#" id="updateBtn" onclick="$.Power.clickUpdate('+index+')">[修改]</a>'
-                    +'<a href="#" id="deleBtn" onclick="$.Power.clickDele('+row.powerId+","+1+')">[删除]</a>';
+                var html = '<a href="#" class="updateBtn" onclick="$.Power.clickUpdate('+index+')">[修改]</a>'
+                    +'<a href="#" class="deleBtn" onclick="$.Power.clickDele('+row.powerId+","+1+')">[删除]</a>';
                 return html;
 
             }
@@ -28,6 +29,8 @@ $.Power =
      */
     init:function()
     {
+        $.common.init();
+        $.Power.userPower = $.common.userPower.powerAction;
         $.Power.initDataGrid();
         $.Power.initClickEvent();
 
@@ -66,12 +69,23 @@ $.Power =
                     }
                 }
 
-            ]
+            ],
+            onLoadSuccess:function(data){
+                if($.Power.userPower.indexOf("权限添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(0).hide();
+                }
+                if($.Power.userPower.indexOf("权限修改")==-1){
+                    $(".updateBtn").hide();
+                }
+                if($.Power.userPower.indexOf("权限删除")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(1).hide();
+                    $(".deleBtn").hide();
+                }
+                if($.Power.userPower.indexOf("权限删除")==-1&&userPower.indexOf("权限添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar').hide();
+                }
+            }
 
-        }).datagrid('getPager').pagination({
-            beforePageText :'第',
-            afterPageText :'页 共{pages}页',
-            displayMsg:   '共{total}条记录'
         });
     },
     /*

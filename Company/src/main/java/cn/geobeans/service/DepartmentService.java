@@ -24,10 +24,10 @@ public class DepartmentService {
 
     public Map<String, Object> queryDepartmentData(Map map) {
         Map<String,Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("total",dao.queryDepartmentCount(map));
-        resultMap.put("rows",dao.queryDepartmentData(map));
-
-
+        //resultMap.put("total",dao.queryDepartmentCount(map));
+        //resultMap.put("rows",dao.queryDepartmentData(map));
+        resultMap.put("total",dao.queryDepartmentCounts(map));
+        resultMap.put("rows",dao.queryDepartment(map));
         return resultMap;
     }
 

@@ -36,7 +36,7 @@ public class EmployeeController {
        角色信息查询
      */
     @RequestMapping("/queryEmployeeData")
-    public void  queryEmployeeData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeName,String employeeId,
+    public void  queryEmployeeData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeName,String employeeId,String companyId,
                                 int rows, int page,String sort,String order) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> resultMap = null;
@@ -63,7 +63,7 @@ public class EmployeeController {
         }
         map.put("startNum", rows * (page - 1));
         map.put("pageSize",rows);
-
+        map.put("companyId",companyId);
         map.put("orders",orders);
         map.put("employeeName",employeeName);
         map.put("employeeId",employeeId);

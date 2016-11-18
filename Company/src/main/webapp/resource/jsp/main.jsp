@@ -10,11 +10,13 @@
 <head>
     <title></title>
 </head>
-<body>
-     <div align="center">
-        <b >公司管理系统</b><br/>
-         待建中。。。。。。。
+<style>
+    body {
+        background: url("../tool/images/main.jpg");
+        background-repeat: no-repeat;
+    }
+</style>
+<body >
 
-     </div>
 </body>
 </html>

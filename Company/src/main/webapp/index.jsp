@@ -26,7 +26,7 @@
     </div>
     <div class="wu-header-right">
         <p><strong id="showuser"  >${loginUser.employeeName}</strong>，欢迎您！</p>
-        <p><a href="#" id="dd">【帮助中心】</a>|<a href="#" onclick="addTab('密码修改','Repass.html','icon-users',1);" >【修改密码】</a>|<a href="#" onclick="$.index.exitSys()">【安全退出】</a></p>
+        <p><a href="#" onclick="$.index.addTab('修改密码','resource/jsp/Repass.jsp','icon-users',1);" >【修改密码】</a>|<a href="#" onclick="$.index.exitSys()">【安全退出】</a></p>
     </div>
 
 </div>
@@ -37,7 +37,6 @@
 
         <div title="员工管理" data-options="iconCls:'icon-application-form-edit'" id="eMessage" display="none" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
-                <li><a href="javascript:void(0)" id="dds">dsdsdsd</a> </li>
                 <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Employee.jsp" iframe="1">员工信息</a></li>
             </ul>
         </div>
@@ -50,7 +49,8 @@
         <div title="分公司管理" data-options="iconCls:'icon-creditcards'" id="cMessage" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
                 <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/Company.jsp" iframe="1">分公司信息</a></li>
-                <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="treeTable2.jsp" iframe="1">同步树表</a></li>
+                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/firm.jsp" iframe="1">分公司结构</a></li>
+
             </ul>
         </div>
         <div title="权限管理" data-options="iconCls:'icon-creditcards'" id="pMessage" style="padding:5px;">
@@ -61,8 +61,8 @@
         </div>
         <div title="个人信息管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">
             <ul class="easyui-tree wu-side-tree">
-                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="treeTable.jsp" iframe="1">个人信息</a></li>
-                <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="treeTable2.jsp" iframe="1">修改密码</a></li>
+                <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="resource/jsp/UserInfo.jsp" iframe="1">个人信息</a></li>
+                <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="resource/jsp/Repass.jsp" iframe="1">修改密码</a></li>
             </ul>
         </div>
 

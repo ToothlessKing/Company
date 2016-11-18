@@ -26,6 +26,7 @@ public class CompanyDepartmentService {
 
     public int addData(int companyId,String departmentIds){
         dao.remove(companyId);
+        if(departmentIds==null||departmentIds.trim().equalsIgnoreCase(""))return 0;
         String[] strings = departmentIds.split(",");
         for(int i=0 ;i<strings.length ;i++){
             CompanyDepartment companyDepartment = new CompanyDepartment();

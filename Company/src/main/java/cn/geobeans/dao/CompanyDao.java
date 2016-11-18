@@ -1,16 +1,17 @@
     package cn.geobeans.dao;
 
-import cn.geobeans.bean.Company;
-import cn.geobeans.common.database.DaoHibernateImpl;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Repository;
+    import cn.geobeans.bean.Company;
+    import cn.geobeans.common.database.DaoHibernateImpl;
+    import org.hibernate.Criteria;
+    import org.hibernate.Query;
+    import org.hibernate.criterion.DetachedCriteria;
+    import org.hibernate.criterion.Projections;
+    import org.hibernate.criterion.Restrictions;
+    import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
 
     /**
      * Created by Administrator on 2016/10/26.
@@ -24,7 +25,7 @@ public class CompanyDao extends DaoHibernateImpl<Company,Integer> {
         String companyName = (String) map.get("companyName");
         String companyId = (String) map.get("companyId");
         if(companyName!=null&&!companyName.equalsIgnoreCase("")){
-            criteria.add(Restrictions.eq("companyName",companyName));
+            criteria.add(Restrictions.ilike("companyName","%"+companyName+"%"));
         }
         if(companyId!=null&&!companyId.equalsIgnoreCase("")){
             criteria.add(Restrictions.eq("companyId",Integer.parseInt(companyId)));
@@ -39,7 +40,7 @@ public class CompanyDao extends DaoHibernateImpl<Company,Integer> {
         String companyName = (String) map.get("companyName");
         String companyId = (String) map.get("companyId");
         if(companyName!=null&&!companyName.equalsIgnoreCase("")){
-            criteria.add(Restrictions.eq("companyName",companyName));
+            criteria.add(Restrictions.ilike("companyName", "%" + companyName + "%"));
         }
         if(companyId!=null&&!companyId.equalsIgnoreCase("")){
             criteria.add(Restrictions.eq("companyId",Integer.parseInt(companyId)));
@@ -90,6 +91,21 @@ public class CompanyDao extends DaoHibernateImpl<Company,Integer> {
         String hql = "select max(companyId) from company";
         List list =getSession().createSQLQuery(hql).list();
         return (int)list.get(0);
+    }
+    public int  updateCoor(int companyId,String coor){
+        String hql = "update Company c set c.companyCoordinates='"+coor+"' where id = "+companyId;
+        Query query =createQuery(hql);
+        return query.executeUpdate();
+    }
+    public int saveScope(int companyId,String scope){
+        String hql = "update Company c set c.companyScopeMap='"+scope+"' where id = "+companyId;
+        Query query =createQuery(hql);
+        return query.executeUpdate();
+    }
+    public int countNode(int companyId){
+        String hql = "select count(*) from company_department cd where cd.companyId ="+companyId;
+
+        return ((Number)getSession().createSQLQuery(hql).uniqueResult()).intValue();
     }
 
 }

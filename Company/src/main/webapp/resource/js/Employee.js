@@ -5,12 +5,14 @@ $.Employee =
 {
     employeeId:"",
     employeeName:"",
+    userCompanyId:"",
+    userPower:"",
     columns:[
         {field:'checkbox',checkbox:true},
         {field:'employeeId',title:'员工号',width:50,sortable:true},
         {field:'employeeName',title:'员工名',width:100,sortable:true},
         {field:'departmentId',title:'部门id',width:100,sortable:true},
-        {field:'departmentName',title:'部门姓名',width:100,sortable:true},
+        {field:'departmentName',title:'部门名',width:100,sortable:true},
         {field:'companyId',title:'分公司id',width:100,sortable:true},
         {field:'companyName',title:'分公司名',width:100,sortable:true},
         {field:'employeeSex',title:'员工性别',width:100,sortable:true},
@@ -21,8 +23,8 @@ $.Employee =
         {field:'password',title:'系统角色',width:100,sortable:true,hidden:true},
         {field:'action',title:'操作',width:100,
             formatter:function(value,row,index){
-                var html = '<a href="#" id="updateBtn" onclick="$.Employee.clickUpdate('+index+')">[修改]</a>'
-                    +'<a href="#" id="deleBtn" onclick="$.Employee.clickDele('+row.employeeId+","+1+')">[删除]</a>';
+                var html = '<a href="#" class="updateBtn" onclick="$.Employee.clickUpdate('+index+')">[修改]</a>'
+                    +'<a href="#" class="deleBtn" onclick="$.Employee.clickDele('+row.employeeId+","+1+')">[删除]</a>';
                 return html;
             }
         }
@@ -32,6 +34,12 @@ $.Employee =
      */
     init:function()
     {
+        $.common.init();
+        $.Employee.userPower = $.common.userPower.powerAction;
+        var powerScope = $.common.userPower.powerScope;
+        if(powerScope=="所在分公司"){
+            $.Employee.userCompanyId= $.common.userPower.companyId;
+        }
         $.Employee.initDataGrid();
         $.Employee.initClickEvent();
         $.Employee.loadCombobox();
@@ -43,7 +51,7 @@ $.Employee =
     initDataGrid:function()
     {
         $("#EmployeeGrid").datagrid({
-            url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName,
+            url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName+"&companyId="+$.Employee.userCompanyId,
             pagination:true,
             singleSelect:false,
             columns :  [$.Employee.columns] ,
@@ -69,12 +77,23 @@ $.Employee =
                     }
                 }
 
-            ]
+            ],
+            onLoadSuccess:function(data){
+                if($.Employee.userPower.indexOf("员工添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(0).hide();
+                }
+                if($.Employee.userPower.indexOf("员工修改")==-1){
+                    $(".updateBtn").hide();
+                }
+                if($.Employee.userPower.indexOf("员工删除")==-1){
+                    $('div.datagrid div.datagrid-toolbar a').eq(1).hide();
+                    $(".deleBtn").hide();
+                }
+                if($.Employee.userPower.indexOf("员工删除")==-1&&userPower.indexOf("员工添加")==-1){
+                    $('div.datagrid div.datagrid-toolbar').hide();
+                }
+            }
 
-        }).datagrid('getPager').pagination({
-            beforePageText :'第',
-            afterPageText :'页 共{pages}页',
-            displayMsg:   '共{total}条记录'
         });
     },
     /*
@@ -101,7 +120,7 @@ $.Employee =
             $.Employee.employeeId = $('#employee_id').textbox('getValue');
             $.Employee.employeeName = $('#employee_name').textbox('getValue');
             $("#EmployeeGrid").datagrid({
-                url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName
+                url:$.common.base+"/employee/queryEmployeeData.do?employeeId="+$.Employee.employeeId+"&employeeName="+$.Employee.employeeName+"&companyId="+$.Employee.userCompanyId
             });
 
         });
