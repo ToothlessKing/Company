@@ -22,7 +22,6 @@ public class LoginService {
     LoginDao dao;
 
     public Employee queryPassByUser(String username){
-
         return  dao.queryPassByUser(username);
 
     }

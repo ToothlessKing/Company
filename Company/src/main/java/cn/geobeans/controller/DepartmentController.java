@@ -111,7 +111,10 @@ public class DepartmentController {
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
     }
-
+     /*
+     查询所有信息
+     用于填充下拉列表
+      */
     @RequestMapping("/queryAll")
     public void queryAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.setCharacterEncoding("UTF-8");
@@ -119,6 +122,10 @@ public class DepartmentController {
         List<Department> list = service.getAll();
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
     }
+    /*
+    根据id查询部门信息
+    用于多选下拉列表的选中事件
+     */
     @RequestMapping("/queryBy")
     public void queryBy(HttpServletRequest httpServletRequest, int companyId,HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.setCharacterEncoding("UTF-8");

@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/10/26.
+ * 角色模块.
  */
 $.Role =
 {
@@ -254,6 +254,9 @@ $.Role =
     clearForm:function(){
         $('#fm').form('clear');
     },
+    /*
+     初始化权限下拉列表
+     */
     load:function(){
         //$.ajax({
         //    type:"POST",

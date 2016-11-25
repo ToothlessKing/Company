@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/10/26.
+ *部门信息模块
  */
 $.Department =
 {
@@ -159,7 +159,7 @@ $.Department =
     @param 个数
      */
     removeDepartmentData:function(departmentids,count){
-        alert(departmentids+" : "+count);
+        //alert(departmentids+" : "+count);
         $.ajax({
             type: 'POST',
             url:$.Department.base+"/department/removeDepartmentData.do",
@@ -168,7 +168,7 @@ $.Department =
                 count:count
             },
             success:function(data){
-                alert(data);
+                $.messager.alert("提示","操作成功");
                 $('#DepartmentGrid').datagrid('reload');
             }
         });
@@ -180,7 +180,7 @@ $.Department =
         var departmentName  = $('#departmentName').textbox('getValue');
         var departmentDescribe = $('#departmentDescribe').textbox('getValue');
         if(departmentName.trim()==""||departmentName==null){
-            alert("部门名称不能为空！！！");
+            $.messager.alert("提示","部门名称不能为空！！！");
             return;
         }
         $.ajax({
@@ -193,11 +193,11 @@ $.Department =
             success:function(data){
                 if(data=="1"){
                     $('#addDialog').dialog('close');
-                    alert(data);
+                    $.messager.alert("提示","操作成功");
                     $('#DepartmentGrid').datagrid('reload');
                 }
                 else{
-                    alert("已存在该信息！！！");
+                    $.messager.alert("错误提示","操作失败");
                 }
 
             }
@@ -211,7 +211,7 @@ $.Department =
         var departmentName  = $('#departmentName').textbox('getValue');
         var departmentDescribe = $('#departmentDescribe').textbox('getValue');
         if(departmentName.trim()==""||departmentName==null){
-            alert("部门名称不能为空！！！");
+            $.messager.alert("提示","部门名称不能为空！！！");
             return;
         }
         $.ajax({
@@ -226,17 +226,20 @@ $.Department =
                 if(data=="1")
                 {
                     $('#addDialog').dialog('close');
-                    alert(data);
+                    $.messager.alert("提示","操作成功");
                     $('#DepartmentGrid').datagrid('reload');
                     $("#DepartmentGrid").datagrid('clearSelections').datagrid('clearChecked');
                 }
                 else{
-                    alert("更新失败");
+                    $.messager.alert("错误提示","操作失败");
                 }
 
             }
         });
     },
+    /*
+    对话框的表单清除
+     */
     clearForm:function(){
         $('#fm').form('clear');
     }

@@ -13,7 +13,13 @@ import java.util.List;
 public class LoginDao extends DaoHibernateImpl<Employee,Integer> {
 
     public Employee queryPassByUser(String username){
-        return findUniqueBy("employeeName", username);
+        if(username.matches("^[0-9]*$")){
+            return findUniqueBy("employeeId", Integer.parseInt(username));
+        }
+        else{
+            return findUniqueBy("employeeName", username);
+        }
+
     }
     public List queryPower(int employeeId){
 

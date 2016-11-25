@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/11/7.
+ * 地图初始化
  */
 $.map5 = {
     mapObj: null,
@@ -8,6 +8,13 @@ $.map5 = {
     coorX:null,
     coorY:null,
     scopePoints:null,
+    /*
+    初始化
+    设置地图的范围
+    添加基本图层
+    设置中心点
+    设置地图级别（范围精度）
+     */
     init: function () {
         // 1、设置地图的范围
 
@@ -68,6 +75,10 @@ $.map5 = {
         $.map5.mapObj.draw();
         $.map5.click_timezone(name);
     },
+    /*
+     加载地图信息
+     @param path json或GeoJson数据的url路径
+     */
     addGeoJson2: function (path) {
         $.map5.mapObj.removeLayer("geojson");
         // 1、图层名称
@@ -110,6 +121,9 @@ $.map5 = {
         style.addRule(rule);
         return style;
     },
+    /*
+    设置style
+     */
     createPolygonStyle:function (){
         var style = new GeoBeans.Style.FeatureStyle();
         var rule = new GeoBeans.Rule();
@@ -142,7 +156,7 @@ $.map5 = {
         style.addRule(rule);
         return style;
     },
-
+    //点击事件
     click_timezone:function (id){
 
     // 1、设置点击后的样式
@@ -220,7 +234,7 @@ $.map5 = {
 
             // 5、设定符号样式
             symbolizer.symbol = symbol;
-            var html = "<div style='width:100px;height:50px;'><div>&nbsp;&nbsp;地址:" + companyAddress + "</div></div>";
+            var html = "<div class='easyui-panel' style='width:100px;height:50px;'><div>&nbsp;&nbsp;地址:" + companyAddress + "</div></div>";
             var options = {
                 title: companyName //弹窗名称
             };
@@ -366,6 +380,7 @@ $.map5 = {
         $.map5.mapObj.clearOverlays();
         $.map5.mapObj.draw();
     },
+    //清除所有信息
     removeAll:function(){
         $.map5.clearOverlays();
         $.map5.mapObj.removeLayer("geojson_point");

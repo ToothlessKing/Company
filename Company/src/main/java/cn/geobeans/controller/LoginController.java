@@ -23,7 +23,10 @@ public class LoginController {
     @Autowired
     LoginService service;
     ObjectMapper mapper = new ObjectMapper();
-
+    /*
+    登陆模块
+    用户信息验证
+     */
     @RequestMapping("/login")
     public void login (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session,String username,String password)throws IOException {
         int flag = 0;
@@ -45,10 +48,18 @@ public class LoginController {
         }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
+    /*
+    退出系统
+    消除session中的用户信息
+     */
     @RequestMapping("/exitSys")
     public void getUserMag (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
         session.removeAttribute("loginUser");
     }
+    /*
+    获取用户的相关信息
+    用于初始化话主要用户权限的限制
+     */
     @RequestMapping("/getUserMag")
     public void exitSys (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session)throws IOException {
         Map map = new HashMap<>();

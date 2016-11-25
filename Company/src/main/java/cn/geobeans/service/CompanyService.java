@@ -251,17 +251,30 @@ public class CompanyService {
                 returnList.add(map);
             }
 
-        }else{
+        }else if(id.indexOf("d")==-1){
             List objList = dao.loadTree(id);
             for(int i=0 ;i<objList.size() ;i++){
                 Object[] objects = (Object[])objList.get(i);
                 Map map = new HashMap<>();
-                map.put("id",String.valueOf(objects[0])+"0"+String.valueOf(objects[1]));
+//                map.put("id",String.valueOf(objects[0])+"0"+String.valueOf(objects[1]));
+                map.put("id",String.valueOf(objects[0])+"d"+String.valueOf(objects[1]));
                 map.put("departmentId",String.valueOf(objects[1]));
                 //map.put("companyId", " "+String.valueOf(objects[0]));
                 map.put("text",(String)objects[2]);
-                map.put("state","open");
+                map.put("state","closed");
                 map.put("flag","department");
+                returnList.add(map);
+            }
+        }else if(id.indexOf("d")>0){
+            String[] ids = id.split("d");
+            List employeeList = dao.loadEmployeeTree(ids[0],ids[1]);
+            for(int i=0 ;i<employeeList.size();i++){
+                Object[] objects = (Object[])employeeList.get(i);
+                Map map = new HashMap<>();
+                map.put("id","e"+String.valueOf(objects[0]));
+                map.put("text",(String)objects[1]);
+                map.put("state","open");
+                map.put("flag","employee");
                 returnList.add(map);
             }
         }

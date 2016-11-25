@@ -60,7 +60,7 @@ public class CompanyController {
        分公司信息添加
      */
     @RequestMapping("/addCompanyData")
-    public void addCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentIds)throws IOException{
+    public void addCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentName)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
@@ -70,7 +70,7 @@ public class CompanyController {
         if(flag!=0){
 
             company.setCompanyId(service.getMaxId());
-            companyDepartmentService.addData(company.getCompanyId(), departmentIds);
+            companyDepartmentService.addData(company.getCompanyId(), departmentName);
         }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
@@ -78,13 +78,13 @@ public class CompanyController {
     分公司信息更新
      */
     @RequestMapping("/updateCompanyData")
-    public void updateCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentIds)throws IOException{
+    public void updateCompanyData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Company company,String departmentName)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
         Map map = new HashMap();
         int flag = service.updateCompanyData(company);
         if(flag!=0){
-            companyDepartmentService.addData(company.getCompanyId(), departmentIds);
+            companyDepartmentService.addData(company.getCompanyId(), departmentName);
         }
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
@@ -116,6 +116,7 @@ public class CompanyController {
         List<Company> list = service.getAll();
         httpServletResponse.getWriter().write(mapper.writeValueAsString(list));
     }
+    //公司信息查询----树形展示
     @RequestMapping("/loadTree")
     public void loadTree(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int rows, int page,String companyId,String companyName) throws IOException{
         String id =httpServletRequest.getParameter("id");
@@ -135,6 +136,10 @@ public class CompanyController {
 
 
     }
+    /*
+        公司地理信息展示
+        返回json数据
+     */
     @RequestMapping("/loadJson")
     public void loadJson(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int rows, int page,String companyId,String companyName,String flag) throws IOException{
         String id =httpServletRequest.getParameter("id");
@@ -160,6 +165,9 @@ public class CompanyController {
 
 
     }
+    /*
+        更新分公司坐标位置
+     */
     @RequestMapping("/updateCoor")
     public void updateCoor(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int companyId,String coor) throws IOException{
 
@@ -167,6 +175,9 @@ public class CompanyController {
         int msg = service.updateCoor(companyId,coor);
         httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
     }
+    /*
+         更新分公司市场范围
+     */
     @RequestMapping("/updateScope")
     public void saveScope(HttpServletRequest httpServletRequest,Model model,HttpServletResponse httpServletResponse,int companyId,String scope) throws IOException{
 

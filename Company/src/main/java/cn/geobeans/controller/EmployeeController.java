@@ -33,7 +33,7 @@ public class EmployeeController {
     EmployeeCompanyDepartmentService ECDService;
     ObjectMapper mapper = new ObjectMapper();
     /*
-       角色信息查询
+       员工信息查询
      */
     @RequestMapping("/queryEmployeeData")
     public void  queryEmployeeData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeName,String employeeId,String companyId,
@@ -73,7 +73,7 @@ public class EmployeeController {
 
     }
     /*
-       角色信息添加
+        员工信息添加
      */
     @RequestMapping("/addEmployeeData")
     public void addEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Employee employee,int departmentId,int roleId,int companyId)throws IOException{
@@ -97,7 +97,7 @@ public class EmployeeController {
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    角色权限信息
+    修改员工信息
      */
     @RequestMapping("/updateEmployeeData")
     public void updateEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Employee employee
@@ -120,7 +120,8 @@ public class EmployeeController {
         httpServletResponse.getWriter().write(mapper.writeValueAsString(flag));
     }
     /*
-    删除角色信息（可批量）
+    删除员工信息信息（可批量）
+    @param 员工ids:多个员工id拼接而成，中间用‘，’分隔
      */
     @RequestMapping("/removeEmployeeData")
     public void removeEmployeeData (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,String employeeids,int count)throws IOException{
@@ -140,6 +141,9 @@ public class EmployeeController {
 
         httpServletResponse.getWriter().write(mapper.writeValueAsString(msg));
     }
+    /*
+        查询所有的员工信息
+     */
     @RequestMapping("/queryAll")
     public void queryAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)throws IOException{
         httpServletRequest.setCharacterEncoding("UTF-8");

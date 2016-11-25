@@ -103,6 +103,9 @@
         <!--<servlet-name>default</servlet-name>-->
         <!--<url-pattern>*.jpg</url-pattern>-->
     <!--</servlet-mapping>-->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
 
 
 </web-app>

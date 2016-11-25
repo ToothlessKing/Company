@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/11/2.
+ * 修改密码模块.
  */
 $.Repass = {
 

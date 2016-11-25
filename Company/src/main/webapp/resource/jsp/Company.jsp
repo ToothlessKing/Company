@@ -73,18 +73,16 @@
     <table id="treeTable" style="width:100%;height:28%" >
     </table>
     <div id="addDialog" class="easyui-dialog"  closed="true" title="新增界面" buttons="#addDialog-buttons">
-        <form id="fm">
-            <table cellpadding="5" id="formTb">
-                <tr id="div1" class="easyui-panel" closed="true">
-                    <td>
+        <form id="fm" method="post" >
+            <table cellpadding="5" id="formTb" >
+                <div id="div1" class="easyui-panel" closed="true">
                         <input type="text" class="easyui-textbox" id="companyId" name="companyId"/>
-                    </td>
-                </tr>
+                </div>
                 <tr>
                     <td>公司名称：
                     </td>
                     <td>
-                        <input type="text" class="easyui-textbox" id="companyName" name="companyName"/>
+                        <input type="text" class="easyui-textbox" id="companyName" data-options="required:true" name="companyName"/>
                     </td>
                 </tr>
 
@@ -92,14 +90,14 @@
                     <td>公司地址：
                     </td>
                     <td>
-                          <input type="text" class="easyui-textbox" id="companyAddress" name="companyAddress"/>
+                          <input type="text" class="easyui-textbox" id="companyAddress" data-options="required:true" name="companyAddress"/>
                     </td>
                 </tr>
                 <tr>
                     <td>下设部门：
                     </td>
                     <td>
-                        <select name="departmentName" id="departmentName" style="width: 100px" panelHeight="auto"></select>
+                        <select name="departmentName" id="departmentName"  style="width: 100px" panelHeight="auto"></select>
                         <div id="sp">
                             <%--<c:forEach items="${Depart}" var="b">--%>
                                 <%--<input type="checkbox" name="departmentName" value="b.departmentId"/>--%>
@@ -111,19 +109,19 @@
                  <tr>
                      <td>负责人：</td>
                      <td>
-                         <input type="text" class="easyui-textbox" id="companyType" name="companyType"/>
+                         <input type="text" class="easyui-textbox" id="companyType" data-options="required:true" name="companyType"/>
                      </td>
                  </tr>
                 <tr>
                     <td>公司邮箱：</td>
                     <td>
-                        <input type="text" class="easyui-textbox" id="companyEmail" name="companyEmail"/>
+                        <input data-options="prompt:'输入邮箱。。。',validType:'email',required:true" class="easyui-textbox" id="companyEmail" name="companyEmail"/>
                     </td>
                 </tr>
                 <tr>
                     <td>联系方式：</td>
                     <td>
-                        <input type="text" class="easyui-textbox" id="companyPhone" name="companyPhone"/>
+                        <input type="text" class="easyui-textbox" data-options="required:true" id="companyPhone" name="companyPhone"/>
                     </td>
                 </tr>
                 <tr>

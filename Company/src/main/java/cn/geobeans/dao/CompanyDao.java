@@ -87,6 +87,15 @@ public class CompanyDao extends DaoHibernateImpl<Company,Integer> {
 
         return list;
     }
+    public List loadEmployeeTree(String companyId,String departmentId){
+        String hql = "SELECT e.employeeId,e.employeeName,e.employeePhone,e.employeeSex,e.employeeEmail \n" +
+                "from employee_company_department ecd , employee e\n" +
+                "where ecd.employeeId = e.employeeId \n" +
+                "and ecd.companyId =" +companyId+
+                " and ecd.departmentId = "+departmentId;
+        List list = getSession().createSQLQuery(hql).list();
+        return list;
+    }
     public int getMaxId(){
         String hql = "select max(companyId) from company";
         List list =getSession().createSQLQuery(hql).list();

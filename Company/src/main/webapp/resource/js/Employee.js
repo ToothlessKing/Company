@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/10/27.
+ * 员工信息模块.
  */
 $.Employee =
 {
@@ -7,6 +7,7 @@ $.Employee =
     employeeName:"",
     userCompanyId:"",
     userPower:"",
+    cmenu:null,
     columns:[
         {field:'checkbox',checkbox:true},
         {field:'employeeId',title:'员工号',width:50,sortable:true},
@@ -20,7 +21,7 @@ $.Employee =
         {field:'employeeEmail',title:'邮箱地址',width:100,sortable:true},
         {field:'roleId',title:'角色id',width:100,sortable:true},
         {field:'roleName',title:'系统角色',width:100,sortable:true},
-        {field:'password',title:'系统角色',width:100,sortable:true,hidden:true},
+        {field:'password',title:'密码',width:100,sortable:true,hidden:true},
         {field:'action',title:'操作',width:100,
             formatter:function(value,row,index){
                 var html = '<a href="#" class="updateBtn" onclick="$.Employee.clickUpdate('+index+')">[修改]</a>'
@@ -92,6 +93,16 @@ $.Employee =
                 if($.Employee.userPower.indexOf("员工删除")==-1&&userPower.indexOf("员工添加")==-1){
                     $('div.datagrid div.datagrid-toolbar').hide();
                 }
+            },
+            onHeaderContextMenu:function (e,field) {
+                e.preventDefault();
+                if(!$.Employee.cmenu){
+                    $.Employee.createColumnMenu();
+                }
+                $.Employee.cmenu.menu('show',{
+                    left:e.pageX,
+                    top:e.pageY
+                });
             }
 
         });
@@ -182,12 +193,12 @@ $.Employee =
         $.Employee.removeEmployeeData(id,row.length);
     },
     /*
-     删除部门信息(批量删除)
-     @param 部门编号（多个则中间用，隔开）
+     删除信息(批量删除)
+     @param 编号（多个则中间用，隔开）
      @param 个数
      */
     removeEmployeeData:function(employeeids,count){
-        alert(employeeids+" : "+count);
+        //alert(employeeids+" : "+count);
         $.ajax({
             url:$.common.base+"/employee/removeEmployeeData.do",
             data:{
@@ -195,13 +206,13 @@ $.Employee =
                 count:count
             },
             success:function(data){
-                alert(data);
+                $.messager.alert("删除成功！！！");
                 $('#EmployeeGrid').datagrid('reload');
             }
         });
     },
     /*
-     添加部门信息
+     添加信息
      */
     addEmployeeData:function(){
         var employeeId  = $('#employeeId').textbox('getValue');
@@ -218,7 +229,35 @@ $.Employee =
         //var password = $('#password').textbox('getValue');
         var password = "123456";
         if(employeeName.trim()==""||employeeName==null){
-            alert("名称不能为空！！！");
+            $.messager.alert("错误提示","名称不能为空！！！");
+            return;
+        }
+        if(!isNaN(employeeName)){
+            $.messager.alert("错误提示","名称不应全为数字!!");
+            return;
+        }
+        if(departmentId.trim()==""||departmentId==null){
+            $.messager.alert("错误提示","部门不能为空！！！");
+            return;
+        }
+        if(roleId.trim()==""||roleId==null){
+            $.messager.alert("错误提示","角色不能为空！！！");
+            return;
+        }
+        if(companyId.trim()==""||companyId==null){
+            $.messager.alert("错误提示","分公司不能为空！！！");
+            return;
+        }
+        if(employeePhone.trim()==""||employeePhone==null){
+            $.messager.alert("错误提示","联系方式不能为空！！！");
+            return;
+        }
+        if(employeePhone.trim()==""||employeePhone==null){
+            $.messager.alert("错误提示","联系方式不能为空！！！");
+            return;
+        }
+        if(employeeEmail.trim()==""||employeeEmail==null){
+            $.messager.alert("错误提示","邮箱不能为空！！！");
             return;
         }
         $.ajax({
@@ -241,18 +280,18 @@ $.Employee =
             success:function(data){
                 if(data!="0"&&data!=0){
                     $('#addDialog').dialog('close');
-                    alert(data);
+                    $.messager.alert("提示", "添加成功！");
                     $('#EmployeeGrid').datagrid('reload');
                 }
                 else{
-                    alert("已存在该信息！！！");
+                    $.messager.alert("错误提示", "添加失败！");
                 }
 
             }
         });
     },
     /*
-     修改部门信息
+     修改信息
      */
     updateEmployeeData:function(){
         var employeeId  = $('#employeeId').textbox('getValue');
@@ -268,7 +307,35 @@ $.Employee =
         //var roleName = $('#roleName').textbox('getValue');
         var password = $('#password').textbox('getValue');
         if(employeeName.trim()==""||employeeName==null){
-            alert("名称不能为空！！！");
+            $.messager.alert("错误提示","名称不能为空！！！");
+            return;
+        }
+        if(!isNaN(employeeName)){
+            $.messager.alert("错误提示","名称不应全为数字!!");
+            return;
+        }
+        if(departmentId.trim()==""||departmentId==null){
+            $.messager.alert("错误提示","部门不能为空！！！");
+            return;
+        }
+        if(roleId.trim()==""||roleId==null){
+            $.messager.alert("错误提示","角色不能为空！！！");
+            return;
+        }
+        if(companyId.trim()==""||companyId==null){
+            $.messager.alert("错误提示","分公司不能为空！！！");
+            return;
+        }
+        if(employeePhone.trim()==""||employeePhone==null){
+            $.messager.alert("错误提示","联系方式不能为空！！！");
+            return;
+        }
+        if(employeePhone.trim()==""||employeePhone==null){
+            $.messager.alert("错误提示","联系方式不能为空！！！");
+            return;
+        }
+        if(employeeEmail.trim()==""||employeeEmail==null){
+            $.messager.alert("错误提示","邮箱不能为空！！！");
             return;
         }
         $.ajax({
@@ -293,12 +360,12 @@ $.Employee =
                 if(data=="1")
                 {
                     $('#addDialog').dialog('close');
-                    alert(data);
+                    $.messager.alert("提示","操作成功");
                     $('#EmployeeGrid').datagrid('reload');
                     $("#EmployeeGrid").datagrid('clearSelections').datagrid('clearChecked');
                 }
                 else{
-                    alert("更新失败");
+                    $.messager.alert("提示","更新失败");
                 }
 
             }
@@ -307,6 +374,12 @@ $.Employee =
     clearForm:function(){
         $('#fm').form('clear');
     },
+    /*
+        初始化下拉列表
+        #departmentName 为部门名称的下拉列表
+        #companyName 为公司名称的下拉列表
+        #roleName  角色名称的下拉列表
+     */
     loadCombobox:function(){
         $("#departmentName").combobox({
             url: $.common.base+"/department/queryAll.do",
@@ -338,5 +411,47 @@ $.Employee =
                 $('#roleName').combobox('select', data[0].roleName);
             }
         });
+    },
+    /*
+    右键表单
+     */
+    createColumnMenu:function () {
+
+        $.Employee.cmenu = $('<div/>').appendTo('body');
+        $.Employee.cmenu.menu({
+            onClick:function (item) {
+                if(item.iconCls=='icon-ok'){
+                    $('#EmployeeGrid').datagrid('hideColumn',item.name);
+                    $.Employee.cmenu.menu('setIcon',{
+                        target:item.target,
+                        iconCls:'icon-empty'
+                    });
+                }else {
+                    $('#EmployeeGrid').datagrid('showColumn',item.name);
+                    $.Employee.cmenu.menu('setIcon',{
+                        target:item.target,
+                        iconCls:'icon-ok'
+                    });
+                }
+            }
+        });
+        var fields = $('#EmployeeGrid').datagrid('getColumnFields');
+        for(var i=0 ;i<fields.length;i++){
+            var field = fields[i];
+            var col = $('#EmployeeGrid').datagrid('getColumnOption',field);
+            if(col.hidden==true){
+                $.Employee.cmenu.menu('appendItem',{
+                    text:col.title,
+                    name:field,
+                    iconCls:'icon-empty'
+                });
+            }else {
+                $.Employee.cmenu.menu('appendItem',{
+                    text:col.title,
+                    name:field,
+                    iconCls:'icon-ok'
+                });
+            }
+        }
     }
 }

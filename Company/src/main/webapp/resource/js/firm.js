@@ -11,6 +11,7 @@ $(function(){
             if(param.id==null){
                 param.id = 0;
             }
+
         },
         onClick:function(node){
             console.log(node);

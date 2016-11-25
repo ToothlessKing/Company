@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/11/2.
+ * 个人信息的展示修改模块.
  */
 $.UserInfo =
 {

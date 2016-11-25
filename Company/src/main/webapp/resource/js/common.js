@@ -1,10 +1,15 @@
 /**
- * Created by Administrator on 2016/10/28.
+ *公共信息管理
  */
 $.common = {
+    //地址前缀
     base:"/Company",
     loginUser:null,
     userPower:null,
+    /*
+     初始化
+     获取用户的信息
+     */
     init:function(){
         $.ajax({
             type:"POST",
@@ -18,6 +23,10 @@ $.common = {
             }
         })
     },
+    /*
+    设置模块禁用
+    根据当前用户的拥有权限，对其无法使用的模块进行禁用
+     */
     setDisable:function(){
         var userPower = $.common.userPower.powerAction;
         if(userPower.indexOf("员工浏览")==-1){

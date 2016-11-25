@@ -27,11 +27,11 @@
                 <ul class="admin_items">
                     <li>
                         <label for="user">用户名：</label>
-                        <input type="text" name="username" value="" onfocus="" id="username" size="35" class="admin_input_style" />
+                        <input type="text" name="username" value="" onfocus="" placeholder="请输入用户名或员工号" id="username" size="35" class="admin_input_style" />
                     </li>
                     <li>
                         <label for="pwd">密码：</label>
-                        <input type="password" name="password" value="" id="password" size="35" class="admin_input_style" />
+                        <input type="password" name="password" value="" id="password" placeholder="请输入密码" size="35" class="admin_input_style" />
                     </li>
                     <li>
                         <input type="button" tabindex="3" value="提交" onclick="$.login.initSumbit()" class="btn btn-primary" />

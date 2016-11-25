@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/11/3.
+ * 分公司信息模块
  */
 
 $.Company =
@@ -30,6 +30,9 @@ $.Company =
         $("#saveScopeBtn").hide();
         //$.Company.initCombo();
     },
+    /*
+    初始化树形表格
+     */
     initTreeGrid :function(){
 
         $('#treeTable').treegrid({
@@ -151,7 +154,8 @@ $.Company =
 
     });
 
-    },/*
+    },
+    /*
     初始化点击事件
     */
     initClickEvent:function(){
@@ -209,7 +213,7 @@ $.Company =
 
             $('#addDialog').dialog('open').dialog('setTitle','修改界面');
             $('#fm').form('load',rows);
-            //$('#companyId').textbox('setValue',companyId);
+            $('#companyId').textbox('setValue',rows.companyId);
             //$('#companyName').textbox('setValue',companyName);
             //$('#companyAddress').textbox('setValue',companyAddress);
     },
@@ -235,7 +239,7 @@ $.Company =
      删除信息(批量删除)
      */
     removeCompanyData:function(companyids,count){
-        alert(companyids+" : "+count);
+        //alert(companyids+" : "+count);
         $.ajax({
             type: 'POST',
             url:$.common.base+"/company/removeCompanyData.do",
@@ -244,7 +248,7 @@ $.Company =
                 count:count
             },
             success:function(data){
-                alert(data);
+                $.messager.alert("提示","操作成功");
                 $('#treeTable').treegrid('reload');
             }
         });
@@ -253,41 +257,14 @@ $.Company =
      添加信息
      */
     addCompanyData:function(){
-        var companyId  = $('#companyId').textbox('getValue');
-        var companyName  = $('#companyName').textbox('getValue');
-        var companyAddress  = $('#companyAddress').textbox('getValue');
-        var departmentId = $('#departmentName').combo('getValue');
-        var companyType = $("#companyType").textbox('getValue');
-        var companyEmail = $("#companyEmail").textbox('getValue');
-        var companyPhone = $("#companyPhone").textbox('getValue');
-        var startTime = $("#startTime").datebox('getValue');
-        var size = $("#size").combobox('getValue');
-        var business = $("#business").textbox('getValue');
-        if(companyName.trim()==""||companyName==null){
-            alert("名称不能为空！！！");
-            return;
-        }
-        if(companyAddress.trim()==""||companyAddress==null){
-            alert("地址不能为空！！！");
-            return;
-        }
-
-
-        $.ajax({
-            type: 'POST',
-            url:$.common.base+"/company/addCompanyData.do",
-            data:{
-                companyName:companyName,
-                companyAddress:companyAddress,
-                departmentIds:departmentId,
-                companyType:companyType,
-                companyEmail:companyEmail,
-                companyPhone:companyPhone,
-                startTime:startTime,
-                size:size,
-                business:business
+        $("#companyId").textbox('setValue',0);
+        $('#fm').form('submit',{
+            url: $.common.base+"/company/addCompanyData.do",
+            onSubmit: function () {
+            //表单验证
+                return $("#fm").form('validate');
             },
-            success:function(data){
+            success: function (data) {
                 if(data=="1"){
                     $('#addDialog').dialog('close');
                     alert(data);
@@ -296,62 +273,141 @@ $.Company =
                 else{
                     alert("已存在该信息！！！");
                 }
-
             }
         });
+
+        //$('#addDialog').dialog('close');
+        //$('#treeTable').treegrid('reload');
+        //var companyId  = $('#companyId').textbox('getValue');
+        //var companyName  = $('#companyName').textbox('getValue');
+        //var companyAddress  = $('#companyAddress').textbox('getValue');
+        //var departmentId = $('#departmentName').combo('getValue');
+        //var companyType = $("#companyType").textbox('getValue');
+        //var companyEmail = $("#companyEmail").textbox('getValue');
+        //var companyPhone = $("#companyPhone").textbox('getValue');
+        //var startTime = $("#startTime").datebox('getValue');
+        //var size = $("#size").combobox('getValue');
+        //var business = $("#business").textbox('getValue');
+        //
+        //if(companyName.trim()==""||companyName==null){
+        //    alert("名称不能为空！！！");
+        //    return;
+        //}
+        //if(companyType.trim()==""||companyType==null){
+        //    alert("负责人不能为空！！！");
+        //    return;
+        //}
+        //if(companyPhone.trim()==""||companyPhone==null){
+        //    alert("公司电话不能为空！！！");
+        //    return;
+        //}
+        //if(companyAddress.trim()==""||companyAddress==null){
+        //    alert("地址不能为空！！！");
+        //    return;
+        //}
+        //
+        //
+        //$.ajax({
+        //    type: 'POST',
+        //    url:$.common.base+"/company/addCompanyData.do",
+        //    data:{
+        //        companyName:companyName,
+        //        companyAddress:companyAddress,
+        //        departmentIds:departmentId,
+        //        companyType:companyType,
+        //        companyEmail:companyEmail,
+        //        companyPhone:companyPhone,
+        //        startTime:startTime,
+        //        size:size,
+        //        business:business
+        //    },
+        //    success:function(data){
+        //        if(data=="1"){
+        //            $('#addDialog').dialog('close');
+        //            alert(data);
+        //            $('#treeTable').treegrid('reload');
+        //        }
+        //        else{
+        //            alert("已存在该信息！！！");
+        //        }
+        //
+        //    }
+        //});
     },
     /*
      修改信息
      */
     updateCompanyData:function(){
-        var companyId  = $('#companyId').textbox('getValue');
-        var companyName  = $('#companyName').textbox('getValue');
-        var companyAddress  = $('#companyAddress').textbox('getValue');
-        var departmentId = $('#departmentName').combo('getValue');
-        var companyType = $("#companyType").textbox('getValue');
-        var companyEmail = $("#companyEmail").textbox('getValue');
-        var companyPhone = $("#companyPhone").textbox('getValue');
-        var startTime = $("#startTime").datebox('getValue');
-        var size = $("#size").combobox('getValue');
-        var business = $("#business").textbox('getValue');
-        if(companyName.trim()==""||companyName==null){
-            alert("名称不能为空！！！");
-            return;
-        }
-        if(companyAddress.trim()==""||companyAddress==null){
-            alert("地址不能为空！！！");
-            return;
-        }
-        $.ajax({
-            url:$.common.base+"/company/updateCompanyData.do",
-            type: 'POST',
-            data:{
-                companyId:companyId,
-                companyName:companyName,
-                companyAddress:companyAddress,
-                departmentIds:departmentId,
-                companyType:companyType,
-                companyEmail:companyEmail,
-                companyPhone:companyPhone,
-                startTime:startTime,
-                size:size,
-                business:business
+        $('#fm').form('submit',{
+            url: $.common.base+"/company/updateCompanyData.do",
+            onSubmit: function () {
+                //表单验证
+                return $("#fm").form('validate');
             },
-            success:function(data){
+            success: function (data) {
                 if(data=="1")
                 {
                     $('#addDialog').dialog('close');
-                    alert(data);
+                    alert("更新成功");
                     $('#treeTable').treegrid('reload');
                     $("#treeTable").treegrid('clearSelections').treegrid('clearChecked');
                 }
                 else{
                     alert("更新失败");
                 }
-
             }
         });
+        //var companyId  = $('#companyId').textbox('getValue');
+        //var companyName  = $('#companyName').textbox('getValue');
+        //var companyAddress  = $('#companyAddress').textbox('getValue');
+        //var departmentId = $('#departmentName').combo('getValue');
+        //var companyType = $("#companyType").textbox('getValue');
+        //var companyEmail = $("#companyEmail").textbox('getValue');
+        //var companyPhone = $("#companyPhone").textbox('getValue');
+        //var startTime = $("#startTime").datebox('getValue');
+        //var size = $("#size").combobox('getValue');
+        //var business = $("#business").textbox('getValue');
+        //if(companyName.trim()==""||companyName==null){
+        //    alert("名称不能为空！！！");
+        //    return;
+        //}
+        //if(companyAddress.trim()==""||companyAddress==null){
+        //    alert("地址不能为空！！！");
+        //    return;
+        //}
+        //$.ajax({
+        //    url:$.common.base+"/company/updateCompanyData.do",
+        //    type: 'POST',
+        //    data:{
+        //        companyId:companyId,
+        //        companyName:companyName,
+        //        companyAddress:companyAddress,
+        //        departmentIds:departmentId,
+        //        companyType:companyType,
+        //        companyEmail:companyEmail,
+        //        companyPhone:companyPhone,
+        //        startTime:startTime,
+        //        size:size,
+        //        business:business
+        //    },
+        //    success:function(data){
+        //        if(data=="1")
+        //        {
+        //            $('#addDialog').dialog('close');
+        //            alert(data);
+        //            $('#treeTable').treegrid('reload');
+        //            $("#treeTable").treegrid('clearSelections').treegrid('clearChecked');
+        //        }
+        //        else{
+        //            alert("更新失败");
+        //        }
+        //
+        //    }
+        //});
     },
+    /*
+    对话框表单内容清除
+     */
     clearForm:function(){
         $('#fm').form('clear');
     },
@@ -414,7 +470,7 @@ $.Company =
      */
     initCombo:function(){
         $('#departmentName').combo({
-            required : true,
+            //required : true,
             editable : true,
             multiple : true
         });
@@ -436,6 +492,9 @@ $.Company =
                     'setText', _text);
             });
     },
+    /*
+    修改分公司的坐标位置
+     */
     saveCoor:function(){
         var coorX = $.map5.coorX;
         var coorY = $.map5.coorY;
@@ -458,6 +517,9 @@ $.Company =
         console.log($.map5.coorX);
         console.log($.map5.coorY);
     },
+    /*
+    修改分公司市场范围
+     */
     saveScope:function(){
         var scope = $.map5.scopePoints;
         if(scope==null||scope==""){

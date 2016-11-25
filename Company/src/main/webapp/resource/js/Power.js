@@ -1,8 +1,5 @@
 /**
- * Created by Administrator on 2016/10/27.
- */
-/**
- * Created by Administrator on 2016/10/27.
+ * 权限信息模块
  */
 $.Power =
 {

@@ -1,5 +1,5 @@
 /**
- * Created by LichKing on 2016/10/30.
+ * 登陆模块
  */
 $.login =
 {
@@ -14,6 +14,9 @@ $.login =
         });
 
     },
+    /*
+    登陆验证
+     */
     initSumbit:function()
     {
         var username = $('#username').val();
